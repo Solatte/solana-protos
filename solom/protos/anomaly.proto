@@ -10,17 +10,29 @@ service Anomaly {
 
 
 message SubscribeRequest {
-    SubscribeRequestFilterVolume volume=1;
+    string source = 1;
+    SubscribeRequestFilterVolume volume = 2;
 }
 
 message SubscribeRequestFilterVolume {
-    repeated VolumeCondition conditions=1;
+    oneof condition {
+        VolumeAbove above = 1;
+        VolumeBelow below = 2;
+        VolumeBetween between = 3;
+    }
 }
 
-message VolumeCondition {
-    string operation=1;
-    int64 threshold=2;
-    int64 max_threshold=3;
+message VolumeAbove {
+  float threshold=1; 
+}
+
+message VolumeBelow {
+  float threshold = 1; 
+}
+
+message VolumeBetween {
+  float min = 1; 
+  float max = 2; 
 }
 
 message SubscribeUpdate {
@@ -31,13 +43,13 @@ message SubscribeUpdate {
 
 message SubscribeUpdateVolume {
     string amm_id = 1;
-    string mint= 2;
-    string name= 3;
-    string ticker= 4;
-    double base_vault= 5;
-    double token_price= 6;
-    double volume_1m= 7;
-    bool is_pump_fun= 8;
-    int64 trigger_value= 9;
+    string mint = 2;
+    string name = 3;
+    string ticker = 4;
+    double base_vault = 5;
+    double token_price = 6;
+    double volume_1m = 7;
+    bool is_pump_fun = 8;
+    int64 trigger_value = 9;
 }
 
