@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package solana.storage.GeyserConfirmedBlock;
 
-option go_package = "github.com/Solatte/solana-protos/geyser/pb";
+option go_package = "/geyser/pb";
 
 message GeyserConfirmedBlock {
     string previous_blockhash = 1;

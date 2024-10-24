@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import public "solana-storage.proto";
 
-option go_package = "github.com/Solatte/solana-protos/geyser/pb";
+option go_package = "/geyser/pb";
 
 package geyser;
 
