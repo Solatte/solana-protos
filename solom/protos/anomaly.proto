@@ -8,11 +8,12 @@ service Anomaly {
     rpc Subscribe(stream SubscribeRequest) returns (stream SubscribeUpdate){}
 }
 
-
 message SubscribeRequest {
     string source = 1;
-    SubscribeRequestFilterVolume volume = 2;
-    SubscribeRequestFilterOHLC ohlc = 3;
+    oneof filter {
+        SubscribeRequestFilterVolume volume = 2;
+        SubscribeRequestFilterOHLC ohlc = 3;
+    }
 }
 
 message SubscribeRequestFilterVolume {
