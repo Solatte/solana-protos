@@ -26,7 +26,7 @@ type AnomalyClient interface {
 	GetPriceAllWindow(ctx context.Context, in *AmmId, opts ...grpc.CallOption) (*PriceAllWindow, error)
 	GetVolumeAllWindow(ctx context.Context, in *AmmId, opts ...grpc.CallOption) (*VolumeAllWindow, error)
 	GetOHLCPriceAllWindow(ctx context.Context, in *GetOHLCPriceAllWindowArgs, opts ...grpc.CallOption) (*OHLCPriceAllWindow, error)
-	CheckVolumeFilter(ctx context.Context, in *CheckVolumeArgs, opts ...grpc.CallOption) (*Boolean, error)
+	CheckVolume(ctx context.Context, in *CheckVolumeArgs, opts ...grpc.CallOption) (*Boolean, error)
 }
 
 type anomalyClient struct {
@@ -95,9 +95,9 @@ func (c *anomalyClient) GetOHLCPriceAllWindow(ctx context.Context, in *GetOHLCPr
 	return out, nil
 }
 
-func (c *anomalyClient) CheckVolumeFilter(ctx context.Context, in *CheckVolumeArgs, opts ...grpc.CallOption) (*Boolean, error) {
+func (c *anomalyClient) CheckVolume(ctx context.Context, in *CheckVolumeArgs, opts ...grpc.CallOption) (*Boolean, error) {
 	out := new(Boolean)
-	err := c.cc.Invoke(ctx, "/solom.Anomaly/CheckVolumeFilter", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/solom.Anomaly/CheckVolume", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -112,7 +112,7 @@ type AnomalyServer interface {
 	GetPriceAllWindow(context.Context, *AmmId) (*PriceAllWindow, error)
 	GetVolumeAllWindow(context.Context, *AmmId) (*VolumeAllWindow, error)
 	GetOHLCPriceAllWindow(context.Context, *GetOHLCPriceAllWindowArgs) (*OHLCPriceAllWindow, error)
-	CheckVolumeFilter(context.Context, *CheckVolumeArgs) (*Boolean, error)
+	CheckVolume(context.Context, *CheckVolumeArgs) (*Boolean, error)
 	mustEmbedUnimplementedAnomalyServer()
 }
 
@@ -132,8 +132,8 @@ func (UnimplementedAnomalyServer) GetVolumeAllWindow(context.Context, *AmmId) (*
 func (UnimplementedAnomalyServer) GetOHLCPriceAllWindow(context.Context, *GetOHLCPriceAllWindowArgs) (*OHLCPriceAllWindow, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOHLCPriceAllWindow not implemented")
 }
-func (UnimplementedAnomalyServer) CheckVolumeFilter(context.Context, *CheckVolumeArgs) (*Boolean, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CheckVolumeFilter not implemented")
+func (UnimplementedAnomalyServer) CheckVolume(context.Context, *CheckVolumeArgs) (*Boolean, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckVolume not implemented")
 }
 func (UnimplementedAnomalyServer) mustEmbedUnimplementedAnomalyServer() {}
 
@@ -228,20 +228,20 @@ func _Anomaly_GetOHLCPriceAllWindow_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Anomaly_CheckVolumeFilter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Anomaly_CheckVolume_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CheckVolumeArgs)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AnomalyServer).CheckVolumeFilter(ctx, in)
+		return srv.(AnomalyServer).CheckVolume(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/solom.Anomaly/CheckVolumeFilter",
+		FullMethod: "/solom.Anomaly/CheckVolume",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AnomalyServer).CheckVolumeFilter(ctx, req.(*CheckVolumeArgs))
+		return srv.(AnomalyServer).CheckVolume(ctx, req.(*CheckVolumeArgs))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -266,8 +266,8 @@ var Anomaly_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Anomaly_GetOHLCPriceAllWindow_Handler,
 		},
 		{
-			MethodName: "CheckVolumeFilter",
-			Handler:    _Anomaly_CheckVolumeFilter_Handler,
+			MethodName: "CheckVolume",
+			Handler:    _Anomaly_CheckVolume_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
