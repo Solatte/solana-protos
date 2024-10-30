@@ -18,65 +18,30 @@ message SubscribeRequest {
 }
 
 message SubscribeRequestFilterSolBalance {
-    optional int64 min = 1;
-    optional int64 max = 2;
+    optional uint64 min = 1;
+    optional uint64 max = 2;
 }
 
 message SubscribeRequestFilterPumpFun {
-    optional bool is_pumpfun_token = 1;
+    optional bool is_pumpfun = 1;
 }
 
 message SubscribeRequestFilterTransactionFilter {
     repeated string mint = 1;
     repeated string signer = 2;
-    oneof condition {
-        TransactionAbove above = 3;
-        TransactionBelow below = 4;
-        TransactionBetween between = 5;
-    }
+    optional uint64 min = 3;
+    optional uint64 max = 4;
 }
+
 message SubscribeRequestFilterOHLC {
     string amm_id = 1;
     int64 time_interval = 2;
 }
 
-message TransactionAbove {
-    float threshold = 1;
-}
-
-message TransactionBelow {
-    float threshold = 1;
-}
-
-message TransactionBetween {
-    float min = 1;
-    float max = 2;
-}
-
 message SubscribeUpdate {
-    oneof update_oneof {
-        SubscribeUpdateTransaction transaction = 2;
-        SubscribeUpdateOHLC ohlc = 3;
-    }
-}
-
-message SubscribeUpdateTransaction {
-    string amm_id = 1;
-    string mint = 2;
-    string source = 3;
-}
-
-message SubscribeUpdateOHLC {
-    string amm_id = 1;
-    int64 time_interval = 2;
-    map<int64, OHLC> prices = 3;
-}
-
-message OHLC {
-    double open = 1;
-    double high = 2;
-    double low = 3;
-    double close = 4;
+    string dex = 1;
+    string amm_id = 2;
+    string mint = 3;
 }
 
 message AmmId {
