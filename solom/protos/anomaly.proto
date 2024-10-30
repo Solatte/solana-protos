@@ -8,6 +8,7 @@ service Anomaly {
     rpc Subscribe(stream SubscribeRequest) returns (stream SubscribeUpdate) {}
     rpc GetPriceAllWindow(AmmId) returns (PriceAllWindow) {}
     rpc GetVolumeAllWindow(AmmId) returns (VolumeAllWindow) {}
+    rpc GetOHLCPriceAllWindow(GetOHLCPriceAllWindowArgs) returns (OHLCPriceAllWindow) {}
 }
 
 message SubscribeRequest {
@@ -59,4 +60,20 @@ message ActionMap {
 
 message VolumeAllWindow {
     map<string, ActionMap> volume = 1;
+}
+
+message GetOHLCPriceAllWindowArgs {
+    string amm_id = 1;
+    int64 time_interval = 2;
+}
+
+message OHLCPriceAllWindow {
+    map<string, OHLC> price = 1;
+}
+
+message OHLC {
+    double open = 1;
+    double high = 2;
+    double low = 3;
+    double close = 4;
 }

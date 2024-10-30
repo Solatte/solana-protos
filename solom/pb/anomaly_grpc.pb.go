@@ -25,6 +25,7 @@ type AnomalyClient interface {
 	Subscribe(ctx context.Context, opts ...grpc.CallOption) (Anomaly_SubscribeClient, error)
 	GetPriceAllWindow(ctx context.Context, in *AmmId, opts ...grpc.CallOption) (*PriceAllWindow, error)
 	GetVolumeAllWindow(ctx context.Context, in *AmmId, opts ...grpc.CallOption) (*VolumeAllWindow, error)
+	GetOHLCPriceAllWindow(ctx context.Context, in *GetOHLCPriceAllWindowArgs, opts ...grpc.CallOption) (*OHLCPriceAllWindow, error)
 }
 
 type anomalyClient struct {
@@ -84,6 +85,15 @@ func (c *anomalyClient) GetVolumeAllWindow(ctx context.Context, in *AmmId, opts 
 	return out, nil
 }
 
+func (c *anomalyClient) GetOHLCPriceAllWindow(ctx context.Context, in *GetOHLCPriceAllWindowArgs, opts ...grpc.CallOption) (*OHLCPriceAllWindow, error) {
+	out := new(OHLCPriceAllWindow)
+	err := c.cc.Invoke(ctx, "/solom.Anomaly/GetOHLCPriceAllWindow", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AnomalyServer is the server API for Anomaly service.
 // All implementations must embed UnimplementedAnomalyServer
 // for forward compatibility
@@ -91,6 +101,7 @@ type AnomalyServer interface {
 	Subscribe(Anomaly_SubscribeServer) error
 	GetPriceAllWindow(context.Context, *AmmId) (*PriceAllWindow, error)
 	GetVolumeAllWindow(context.Context, *AmmId) (*VolumeAllWindow, error)
+	GetOHLCPriceAllWindow(context.Context, *GetOHLCPriceAllWindowArgs) (*OHLCPriceAllWindow, error)
 	mustEmbedUnimplementedAnomalyServer()
 }
 
@@ -106,6 +117,9 @@ func (UnimplementedAnomalyServer) GetPriceAllWindow(context.Context, *AmmId) (*P
 }
 func (UnimplementedAnomalyServer) GetVolumeAllWindow(context.Context, *AmmId) (*VolumeAllWindow, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetVolumeAllWindow not implemented")
+}
+func (UnimplementedAnomalyServer) GetOHLCPriceAllWindow(context.Context, *GetOHLCPriceAllWindowArgs) (*OHLCPriceAllWindow, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOHLCPriceAllWindow not implemented")
 }
 func (UnimplementedAnomalyServer) mustEmbedUnimplementedAnomalyServer() {}
 
@@ -182,6 +196,24 @@ func _Anomaly_GetVolumeAllWindow_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Anomaly_GetOHLCPriceAllWindow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOHLCPriceAllWindowArgs)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AnomalyServer).GetOHLCPriceAllWindow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/solom.Anomaly/GetOHLCPriceAllWindow",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AnomalyServer).GetOHLCPriceAllWindow(ctx, req.(*GetOHLCPriceAllWindowArgs))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Anomaly_ServiceDesc is the grpc.ServiceDesc for Anomaly service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -196,6 +228,10 @@ var Anomaly_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetVolumeAllWindow",
 			Handler:    _Anomaly_GetVolumeAllWindow_Handler,
+		},
+		{
+			MethodName: "GetOHLCPriceAllWindow",
+			Handler:    _Anomaly_GetOHLCPriceAllWindow_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
