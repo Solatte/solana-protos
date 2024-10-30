@@ -23,6 +23,8 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AnomalyClient interface {
 	Subscribe(ctx context.Context, opts ...grpc.CallOption) (Anomaly_SubscribeClient, error)
+	GetPriceAllWindow(ctx context.Context, in *AmmId, opts ...grpc.CallOption) (*PriceAllWindow, error)
+	GetVolumeAllWindow(ctx context.Context, in *AmmId, opts ...grpc.CallOption) (*VolumeAllWindow, error)
 }
 
 type anomalyClient struct {
@@ -64,11 +66,31 @@ func (x *anomalySubscribeClient) Recv() (*SubscribeUpdate, error) {
 	return m, nil
 }
 
+func (c *anomalyClient) GetPriceAllWindow(ctx context.Context, in *AmmId, opts ...grpc.CallOption) (*PriceAllWindow, error) {
+	out := new(PriceAllWindow)
+	err := c.cc.Invoke(ctx, "/solom.Anomaly/GetPriceAllWindow", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *anomalyClient) GetVolumeAllWindow(ctx context.Context, in *AmmId, opts ...grpc.CallOption) (*VolumeAllWindow, error) {
+	out := new(VolumeAllWindow)
+	err := c.cc.Invoke(ctx, "/solom.Anomaly/GetVolumeAllWindow", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AnomalyServer is the server API for Anomaly service.
 // All implementations must embed UnimplementedAnomalyServer
 // for forward compatibility
 type AnomalyServer interface {
 	Subscribe(Anomaly_SubscribeServer) error
+	GetPriceAllWindow(context.Context, *AmmId) (*PriceAllWindow, error)
+	GetVolumeAllWindow(context.Context, *AmmId) (*VolumeAllWindow, error)
 	mustEmbedUnimplementedAnomalyServer()
 }
 
@@ -78,6 +100,12 @@ type UnimplementedAnomalyServer struct {
 
 func (UnimplementedAnomalyServer) Subscribe(Anomaly_SubscribeServer) error {
 	return status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
+}
+func (UnimplementedAnomalyServer) GetPriceAllWindow(context.Context, *AmmId) (*PriceAllWindow, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPriceAllWindow not implemented")
+}
+func (UnimplementedAnomalyServer) GetVolumeAllWindow(context.Context, *AmmId) (*VolumeAllWindow, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetVolumeAllWindow not implemented")
 }
 func (UnimplementedAnomalyServer) mustEmbedUnimplementedAnomalyServer() {}
 
@@ -118,13 +146,58 @@ func (x *anomalySubscribeServer) Recv() (*SubscribeRequest, error) {
 	return m, nil
 }
 
+func _Anomaly_GetPriceAllWindow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AmmId)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AnomalyServer).GetPriceAllWindow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/solom.Anomaly/GetPriceAllWindow",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AnomalyServer).GetPriceAllWindow(ctx, req.(*AmmId))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Anomaly_GetVolumeAllWindow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AmmId)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AnomalyServer).GetVolumeAllWindow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/solom.Anomaly/GetVolumeAllWindow",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AnomalyServer).GetVolumeAllWindow(ctx, req.(*AmmId))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Anomaly_ServiceDesc is the grpc.ServiceDesc for Anomaly service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Anomaly_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "solom.Anomaly",
 	HandlerType: (*AnomalyServer)(nil),
-	Methods:     []grpc.MethodDesc{},
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetPriceAllWindow",
+			Handler:    _Anomaly_GetPriceAllWindow_Handler,
+		},
+		{
+			MethodName: "GetVolumeAllWindow",
+			Handler:    _Anomaly_GetVolumeAllWindow_Handler,
+		},
+	},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "Subscribe",
