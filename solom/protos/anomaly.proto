@@ -68,7 +68,7 @@ message GetOHLCPriceAllWindowArgs {
 }
 
 message OHLCPriceAllWindow {
-    map<string, OHLC> price = 1;
+    map<int64, OHLC> price = 1;
 }
 
 message OHLC {
