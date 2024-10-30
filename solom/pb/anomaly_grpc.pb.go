@@ -23,7 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AnomalyClient interface {
 	Subscribe(ctx context.Context, opts ...grpc.CallOption) (Anomaly_SubscribeClient, error)
-	GetPriceAllWindow(ctx context.Context, in *AmmId, opts ...grpc.CallOption) (*PriceAllWindow, error)
+	GetPriceAllWindow(ctx context.Context, in *Mint, opts ...grpc.CallOption) (*PriceAllWindow, error)
 	GetVolumeAllWindow(ctx context.Context, in *AmmId, opts ...grpc.CallOption) (*VolumeAllWindow, error)
 	GetOHLCPriceAllWindow(ctx context.Context, in *GetOHLCPriceAllWindowArgs, opts ...grpc.CallOption) (*OHLCPriceAllWindow, error)
 	CheckVolume(ctx context.Context, in *CheckVolumeArgs, opts ...grpc.CallOption) (*Boolean, error)
@@ -68,7 +68,7 @@ func (x *anomalySubscribeClient) Recv() (*SubscribeUpdate, error) {
 	return m, nil
 }
 
-func (c *anomalyClient) GetPriceAllWindow(ctx context.Context, in *AmmId, opts ...grpc.CallOption) (*PriceAllWindow, error) {
+func (c *anomalyClient) GetPriceAllWindow(ctx context.Context, in *Mint, opts ...grpc.CallOption) (*PriceAllWindow, error) {
 	out := new(PriceAllWindow)
 	err := c.cc.Invoke(ctx, "/solom.Anomaly/GetPriceAllWindow", in, out, opts...)
 	if err != nil {
@@ -109,7 +109,7 @@ func (c *anomalyClient) CheckVolume(ctx context.Context, in *CheckVolumeArgs, op
 // for forward compatibility
 type AnomalyServer interface {
 	Subscribe(Anomaly_SubscribeServer) error
-	GetPriceAllWindow(context.Context, *AmmId) (*PriceAllWindow, error)
+	GetPriceAllWindow(context.Context, *Mint) (*PriceAllWindow, error)
 	GetVolumeAllWindow(context.Context, *AmmId) (*VolumeAllWindow, error)
 	GetOHLCPriceAllWindow(context.Context, *GetOHLCPriceAllWindowArgs) (*OHLCPriceAllWindow, error)
 	CheckVolume(context.Context, *CheckVolumeArgs) (*Boolean, error)
@@ -123,7 +123,7 @@ type UnimplementedAnomalyServer struct {
 func (UnimplementedAnomalyServer) Subscribe(Anomaly_SubscribeServer) error {
 	return status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
 }
-func (UnimplementedAnomalyServer) GetPriceAllWindow(context.Context, *AmmId) (*PriceAllWindow, error) {
+func (UnimplementedAnomalyServer) GetPriceAllWindow(context.Context, *Mint) (*PriceAllWindow, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPriceAllWindow not implemented")
 }
 func (UnimplementedAnomalyServer) GetVolumeAllWindow(context.Context, *AmmId) (*VolumeAllWindow, error) {
@@ -175,7 +175,7 @@ func (x *anomalySubscribeServer) Recv() (*SubscribeRequest, error) {
 }
 
 func _Anomaly_GetPriceAllWindow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AmmId)
+	in := new(Mint)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -187,7 +187,7 @@ func _Anomaly_GetPriceAllWindow_Handler(srv interface{}, ctx context.Context, de
 		FullMethod: "/solom.Anomaly/GetPriceAllWindow",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AnomalyServer).GetPriceAllWindow(ctx, req.(*AmmId))
+		return srv.(AnomalyServer).GetPriceAllWindow(ctx, req.(*Mint))
 	}
 	return interceptor(ctx, in, info, handler)
 }
