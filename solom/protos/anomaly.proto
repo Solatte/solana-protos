@@ -42,6 +42,7 @@ message SubscribeUpdate {
     string dex = 1;
     string amm_id = 2;
     string mint = 3;
+    string signature = 4;
 }
 
 message AmmId {
