@@ -9,6 +9,7 @@ service Anomaly {
     rpc GetPriceAllWindow(AmmId) returns (PriceAllWindow) {}
     rpc GetVolumeAllWindow(AmmId) returns (VolumeAllWindow) {}
     rpc GetOHLCPriceAllWindow(GetOHLCPriceAllWindowArgs) returns (OHLCPriceAllWindow) {}
+    rpc CheckVolume(CheckVolumeArgs) returns (Boolean) {}
 }
 
 message SubscribeRequest {
@@ -50,6 +51,10 @@ message AmmId {
     string amm_id = 1;
 }
 
+message Boolean {
+    bool value = 1;
+}
+
 message PriceAllWindow {
     map<string, double> price = 1;
 }
@@ -76,4 +81,11 @@ message OHLC {
     double high = 2;
     double low = 3;
     double close = 4;
+}
+
+message CheckVolumeArgs {
+    repeated string time_range = 1; 
+   string action = 2; 
+   string operator = 3; 
+   int64 value = 4; 
 }
