@@ -53,10 +53,10 @@ message PriceAllWindow {
     map<string, double> price = 1;
 }
 
-message VolumeAction {
-    map<string, int64> volume_action = 1;
+message ActionMap {
+    map<string, int64> volume = 1;
 }
 
 message VolumeAllWindow {
-    map<string, VolumeAction> volume_window = 1;
+    map<string, ActionMap> volume = 1;
 }
