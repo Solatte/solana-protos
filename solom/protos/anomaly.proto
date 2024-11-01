@@ -60,7 +60,7 @@ message Boolean {
 }
 
 message PriceAllWindow {
-    map<string, double> price = 1;
+    map<int32, double> price = 1;
 }
 
 message ActionMap {
