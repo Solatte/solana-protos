@@ -26,7 +26,11 @@ type AnomalyClient interface {
 	GetPriceAllWindow(ctx context.Context, in *Mint, opts ...grpc.CallOption) (*PriceAllWindow, error)
 	GetOneMinuteVolumeByWindow(ctx context.Context, in *GetOneMinuteVolumeByWindowArgs, opts ...grpc.CallOption) (*OneMinuteVolumeByWindow, error)
 	GetOHLCPriceAllWindow(ctx context.Context, in *GetOHLCPriceAllWindowArgs, opts ...grpc.CallOption) (*OHLCPriceAllWindow, error)
-	CheckVolume(ctx context.Context, in *CheckVolumeArgs, opts ...grpc.CallOption) (*Boolean, error)
+	IsAmmGood(ctx context.Context, in *IsAmmGoodArgs, opts ...grpc.CallOption) (*Boolean, error)
+	GetMostActiveToken(ctx context.Context, in *GetTokenByArgs, opts ...grpc.CallOption) (*TokenBy, error)
+	GetTokenByTrending(ctx context.Context, in *GetTokenByArgs, opts ...grpc.CallOption) (*TokenBy, error)
+	GetTokenByBuy(ctx context.Context, in *GetTokenByArgs, opts ...grpc.CallOption) (*TokenBy, error)
+	GetTokenBySell(ctx context.Context, in *GetTokenByArgs, opts ...grpc.CallOption) (*TokenBy, error)
 }
 
 type anomalyClient struct {
@@ -95,9 +99,45 @@ func (c *anomalyClient) GetOHLCPriceAllWindow(ctx context.Context, in *GetOHLCPr
 	return out, nil
 }
 
-func (c *anomalyClient) CheckVolume(ctx context.Context, in *CheckVolumeArgs, opts ...grpc.CallOption) (*Boolean, error) {
+func (c *anomalyClient) IsAmmGood(ctx context.Context, in *IsAmmGoodArgs, opts ...grpc.CallOption) (*Boolean, error) {
 	out := new(Boolean)
-	err := c.cc.Invoke(ctx, "/solom.Anomaly/CheckVolume", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/solom.Anomaly/IsAmmGood", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *anomalyClient) GetMostActiveToken(ctx context.Context, in *GetTokenByArgs, opts ...grpc.CallOption) (*TokenBy, error) {
+	out := new(TokenBy)
+	err := c.cc.Invoke(ctx, "/solom.Anomaly/GetMostActiveToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *anomalyClient) GetTokenByTrending(ctx context.Context, in *GetTokenByArgs, opts ...grpc.CallOption) (*TokenBy, error) {
+	out := new(TokenBy)
+	err := c.cc.Invoke(ctx, "/solom.Anomaly/GetTokenByTrending", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *anomalyClient) GetTokenByBuy(ctx context.Context, in *GetTokenByArgs, opts ...grpc.CallOption) (*TokenBy, error) {
+	out := new(TokenBy)
+	err := c.cc.Invoke(ctx, "/solom.Anomaly/GetTokenByBuy", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *anomalyClient) GetTokenBySell(ctx context.Context, in *GetTokenByArgs, opts ...grpc.CallOption) (*TokenBy, error) {
+	out := new(TokenBy)
+	err := c.cc.Invoke(ctx, "/solom.Anomaly/GetTokenBySell", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -112,7 +152,11 @@ type AnomalyServer interface {
 	GetPriceAllWindow(context.Context, *Mint) (*PriceAllWindow, error)
 	GetOneMinuteVolumeByWindow(context.Context, *GetOneMinuteVolumeByWindowArgs) (*OneMinuteVolumeByWindow, error)
 	GetOHLCPriceAllWindow(context.Context, *GetOHLCPriceAllWindowArgs) (*OHLCPriceAllWindow, error)
-	CheckVolume(context.Context, *CheckVolumeArgs) (*Boolean, error)
+	IsAmmGood(context.Context, *IsAmmGoodArgs) (*Boolean, error)
+	GetMostActiveToken(context.Context, *GetTokenByArgs) (*TokenBy, error)
+	GetTokenByTrending(context.Context, *GetTokenByArgs) (*TokenBy, error)
+	GetTokenByBuy(context.Context, *GetTokenByArgs) (*TokenBy, error)
+	GetTokenBySell(context.Context, *GetTokenByArgs) (*TokenBy, error)
 	mustEmbedUnimplementedAnomalyServer()
 }
 
@@ -132,8 +176,20 @@ func (UnimplementedAnomalyServer) GetOneMinuteVolumeByWindow(context.Context, *G
 func (UnimplementedAnomalyServer) GetOHLCPriceAllWindow(context.Context, *GetOHLCPriceAllWindowArgs) (*OHLCPriceAllWindow, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOHLCPriceAllWindow not implemented")
 }
-func (UnimplementedAnomalyServer) CheckVolume(context.Context, *CheckVolumeArgs) (*Boolean, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CheckVolume not implemented")
+func (UnimplementedAnomalyServer) IsAmmGood(context.Context, *IsAmmGoodArgs) (*Boolean, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IsAmmGood not implemented")
+}
+func (UnimplementedAnomalyServer) GetMostActiveToken(context.Context, *GetTokenByArgs) (*TokenBy, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMostActiveToken not implemented")
+}
+func (UnimplementedAnomalyServer) GetTokenByTrending(context.Context, *GetTokenByArgs) (*TokenBy, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTokenByTrending not implemented")
+}
+func (UnimplementedAnomalyServer) GetTokenByBuy(context.Context, *GetTokenByArgs) (*TokenBy, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTokenByBuy not implemented")
+}
+func (UnimplementedAnomalyServer) GetTokenBySell(context.Context, *GetTokenByArgs) (*TokenBy, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTokenBySell not implemented")
 }
 func (UnimplementedAnomalyServer) mustEmbedUnimplementedAnomalyServer() {}
 
@@ -228,20 +284,92 @@ func _Anomaly_GetOHLCPriceAllWindow_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Anomaly_CheckVolume_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CheckVolumeArgs)
+func _Anomaly_IsAmmGood_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IsAmmGoodArgs)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AnomalyServer).CheckVolume(ctx, in)
+		return srv.(AnomalyServer).IsAmmGood(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/solom.Anomaly/CheckVolume",
+		FullMethod: "/solom.Anomaly/IsAmmGood",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AnomalyServer).CheckVolume(ctx, req.(*CheckVolumeArgs))
+		return srv.(AnomalyServer).IsAmmGood(ctx, req.(*IsAmmGoodArgs))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Anomaly_GetMostActiveToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTokenByArgs)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AnomalyServer).GetMostActiveToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/solom.Anomaly/GetMostActiveToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AnomalyServer).GetMostActiveToken(ctx, req.(*GetTokenByArgs))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Anomaly_GetTokenByTrending_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTokenByArgs)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AnomalyServer).GetTokenByTrending(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/solom.Anomaly/GetTokenByTrending",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AnomalyServer).GetTokenByTrending(ctx, req.(*GetTokenByArgs))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Anomaly_GetTokenByBuy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTokenByArgs)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AnomalyServer).GetTokenByBuy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/solom.Anomaly/GetTokenByBuy",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AnomalyServer).GetTokenByBuy(ctx, req.(*GetTokenByArgs))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Anomaly_GetTokenBySell_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTokenByArgs)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AnomalyServer).GetTokenBySell(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/solom.Anomaly/GetTokenBySell",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AnomalyServer).GetTokenBySell(ctx, req.(*GetTokenByArgs))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -266,8 +394,24 @@ var Anomaly_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Anomaly_GetOHLCPriceAllWindow_Handler,
 		},
 		{
-			MethodName: "CheckVolume",
-			Handler:    _Anomaly_CheckVolume_Handler,
+			MethodName: "IsAmmGood",
+			Handler:    _Anomaly_IsAmmGood_Handler,
+		},
+		{
+			MethodName: "GetMostActiveToken",
+			Handler:    _Anomaly_GetMostActiveToken_Handler,
+		},
+		{
+			MethodName: "GetTokenByTrending",
+			Handler:    _Anomaly_GetTokenByTrending_Handler,
+		},
+		{
+			MethodName: "GetTokenByBuy",
+			Handler:    _Anomaly_GetTokenByBuy_Handler,
+		},
+		{
+			MethodName: "GetTokenBySell",
+			Handler:    _Anomaly_GetTokenBySell_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
