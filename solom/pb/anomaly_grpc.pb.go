@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AnomalyClient interface {
 	Subscribe(ctx context.Context, opts ...grpc.CallOption) (Anomaly_SubscribeClient, error)
+	SubscribeEvent(ctx context.Context, opts ...grpc.CallOption) (Anomaly_SubscribeEventClient, error)
 	GetPriceAllWindow(ctx context.Context, in *Mint, opts ...grpc.CallOption) (*PriceAllWindow, error)
 	GetOneMinuteVolumeByWindow(ctx context.Context, in *GetOneMinuteVolumeByWindowArgs, opts ...grpc.CallOption) (*OneMinuteVolumeByWindow, error)
 	GetOHLCPriceAllWindow(ctx context.Context, in *GetOHLCPriceAllWindowArgs, opts ...grpc.CallOption) (*OHLCPriceAllWindow, error)
@@ -66,6 +67,37 @@ func (x *anomalySubscribeClient) Send(m *SubscribeRequest) error {
 
 func (x *anomalySubscribeClient) Recv() (*SubscribeUpdate, error) {
 	m := new(SubscribeUpdate)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *anomalyClient) SubscribeEvent(ctx context.Context, opts ...grpc.CallOption) (Anomaly_SubscribeEventClient, error) {
+	stream, err := c.cc.NewStream(ctx, &Anomaly_ServiceDesc.Streams[1], "/solom.Anomaly/SubscribeEvent", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &anomalySubscribeEventClient{stream}
+	return x, nil
+}
+
+type Anomaly_SubscribeEventClient interface {
+	Send(*SubscribeEventRequest) error
+	Recv() (*SubscribeEventUpdate, error)
+	grpc.ClientStream
+}
+
+type anomalySubscribeEventClient struct {
+	grpc.ClientStream
+}
+
+func (x *anomalySubscribeEventClient) Send(m *SubscribeEventRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *anomalySubscribeEventClient) Recv() (*SubscribeEventUpdate, error) {
+	m := new(SubscribeEventUpdate)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -149,6 +181,7 @@ func (c *anomalyClient) GetTokenBySell(ctx context.Context, in *GetTokenByArgs, 
 // for forward compatibility
 type AnomalyServer interface {
 	Subscribe(Anomaly_SubscribeServer) error
+	SubscribeEvent(Anomaly_SubscribeEventServer) error
 	GetPriceAllWindow(context.Context, *Mint) (*PriceAllWindow, error)
 	GetOneMinuteVolumeByWindow(context.Context, *GetOneMinuteVolumeByWindowArgs) (*OneMinuteVolumeByWindow, error)
 	GetOHLCPriceAllWindow(context.Context, *GetOHLCPriceAllWindowArgs) (*OHLCPriceAllWindow, error)
@@ -166,6 +199,9 @@ type UnimplementedAnomalyServer struct {
 
 func (UnimplementedAnomalyServer) Subscribe(Anomaly_SubscribeServer) error {
 	return status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
+}
+func (UnimplementedAnomalyServer) SubscribeEvent(Anomaly_SubscribeEventServer) error {
+	return status.Errorf(codes.Unimplemented, "method SubscribeEvent not implemented")
 }
 func (UnimplementedAnomalyServer) GetPriceAllWindow(context.Context, *Mint) (*PriceAllWindow, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPriceAllWindow not implemented")
@@ -224,6 +260,32 @@ func (x *anomalySubscribeServer) Send(m *SubscribeUpdate) error {
 
 func (x *anomalySubscribeServer) Recv() (*SubscribeRequest, error) {
 	m := new(SubscribeRequest)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func _Anomaly_SubscribeEvent_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(AnomalyServer).SubscribeEvent(&anomalySubscribeEventServer{stream})
+}
+
+type Anomaly_SubscribeEventServer interface {
+	Send(*SubscribeEventUpdate) error
+	Recv() (*SubscribeEventRequest, error)
+	grpc.ServerStream
+}
+
+type anomalySubscribeEventServer struct {
+	grpc.ServerStream
+}
+
+func (x *anomalySubscribeEventServer) Send(m *SubscribeEventUpdate) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *anomalySubscribeEventServer) Recv() (*SubscribeEventRequest, error) {
+	m := new(SubscribeEventRequest)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -418,6 +480,12 @@ var Anomaly_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "Subscribe",
 			Handler:       _Anomaly_Subscribe_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "SubscribeEvent",
+			Handler:       _Anomaly_SubscribeEvent_Handler,
 			ServerStreams: true,
 			ClientStreams: true,
 		},

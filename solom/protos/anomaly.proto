@@ -6,6 +6,8 @@ package solom;
 
 service Anomaly {
     rpc Subscribe(stream SubscribeRequest) returns (stream SubscribeUpdate) {}
+    rpc SubscribeEvent(stream SubscribeEventRequest) returns (stream SubscribeEventUpdate) {}
+
     rpc GetPriceAllWindow(Mint) returns (PriceAllWindow) {}
     rpc GetOneMinuteVolumeByWindow(GetOneMinuteVolumeByWindowArgs) returns (OneMinuteVolumeByWindow) {}
     rpc GetOHLCPriceAllWindow(GetOHLCPriceAllWindowArgs) returns (OHLCPriceAllWindow) {}
@@ -41,10 +43,22 @@ message SubscribeRequestFilterTransactionFilter {
 }
 
 message SubscribeUpdate {
-    string dex = 1;
+    string source = 1;
     string amm_id = 2;
     string mint = 3;
     string signature = 4;
+}
+
+message SubscribeEventRequest {
+    optional string source = 1;
+}
+
+message SubscribeEventUpdate {
+    string source = 1;
+    string amm_id = 2;
+    string mint = 3;
+    string signature = 4;
+    string event = 5;
 }
 
 message AmmId {
