@@ -152,6 +152,10 @@ message SizeMap {
   map<string, int64> value = 1;
 }
 
+message CategoryMap {
+  map<string, SizeMap> size = 1;
+}
+
 message OneMinuteTradeSizeByWindow {
-  map<int32, SizeMap> size = 1;
+  map<int32, CategoryMap> category = 1;
 }
