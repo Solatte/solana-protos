@@ -32,6 +32,8 @@ type AnomalyClient interface {
 	GetTokenByTrending(ctx context.Context, in *GetTokenByArgs, opts ...grpc.CallOption) (*TokenBy, error)
 	GetTokenByBuy(ctx context.Context, in *GetTokenByArgs, opts ...grpc.CallOption) (*TokenBy, error)
 	GetTokenBySell(ctx context.Context, in *GetTokenByArgs, opts ...grpc.CallOption) (*TokenBy, error)
+	GetWhaleCountByWindow(ctx context.Context, in *GetWhaleCountByWindowArgs, opts ...grpc.CallOption) (*WhaleCountByWindow, error)
+	GetOneMinuteTradeSizeByWindow(ctx context.Context, in *GetOneMinuteTradeSizeByWindowArgs, opts ...grpc.CallOption) (*OneMinuteTradeSizeByWindow, error)
 }
 
 type anomalyClient struct {
@@ -176,6 +178,24 @@ func (c *anomalyClient) GetTokenBySell(ctx context.Context, in *GetTokenByArgs, 
 	return out, nil
 }
 
+func (c *anomalyClient) GetWhaleCountByWindow(ctx context.Context, in *GetWhaleCountByWindowArgs, opts ...grpc.CallOption) (*WhaleCountByWindow, error) {
+	out := new(WhaleCountByWindow)
+	err := c.cc.Invoke(ctx, "/solom.Anomaly/GetWhaleCountByWindow", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *anomalyClient) GetOneMinuteTradeSizeByWindow(ctx context.Context, in *GetOneMinuteTradeSizeByWindowArgs, opts ...grpc.CallOption) (*OneMinuteTradeSizeByWindow, error) {
+	out := new(OneMinuteTradeSizeByWindow)
+	err := c.cc.Invoke(ctx, "/solom.Anomaly/GetOneMinuteTradeSizeByWindow", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AnomalyServer is the server API for Anomaly service.
 // All implementations must embed UnimplementedAnomalyServer
 // for forward compatibility
@@ -190,6 +210,8 @@ type AnomalyServer interface {
 	GetTokenByTrending(context.Context, *GetTokenByArgs) (*TokenBy, error)
 	GetTokenByBuy(context.Context, *GetTokenByArgs) (*TokenBy, error)
 	GetTokenBySell(context.Context, *GetTokenByArgs) (*TokenBy, error)
+	GetWhaleCountByWindow(context.Context, *GetWhaleCountByWindowArgs) (*WhaleCountByWindow, error)
+	GetOneMinuteTradeSizeByWindow(context.Context, *GetOneMinuteTradeSizeByWindowArgs) (*OneMinuteTradeSizeByWindow, error)
 	mustEmbedUnimplementedAnomalyServer()
 }
 
@@ -226,6 +248,12 @@ func (UnimplementedAnomalyServer) GetTokenByBuy(context.Context, *GetTokenByArgs
 }
 func (UnimplementedAnomalyServer) GetTokenBySell(context.Context, *GetTokenByArgs) (*TokenBy, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTokenBySell not implemented")
+}
+func (UnimplementedAnomalyServer) GetWhaleCountByWindow(context.Context, *GetWhaleCountByWindowArgs) (*WhaleCountByWindow, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetWhaleCountByWindow not implemented")
+}
+func (UnimplementedAnomalyServer) GetOneMinuteTradeSizeByWindow(context.Context, *GetOneMinuteTradeSizeByWindowArgs) (*OneMinuteTradeSizeByWindow, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOneMinuteTradeSizeByWindow not implemented")
 }
 func (UnimplementedAnomalyServer) mustEmbedUnimplementedAnomalyServer() {}
 
@@ -436,6 +464,42 @@ func _Anomaly_GetTokenBySell_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Anomaly_GetWhaleCountByWindow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetWhaleCountByWindowArgs)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AnomalyServer).GetWhaleCountByWindow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/solom.Anomaly/GetWhaleCountByWindow",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AnomalyServer).GetWhaleCountByWindow(ctx, req.(*GetWhaleCountByWindowArgs))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Anomaly_GetOneMinuteTradeSizeByWindow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOneMinuteTradeSizeByWindowArgs)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AnomalyServer).GetOneMinuteTradeSizeByWindow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/solom.Anomaly/GetOneMinuteTradeSizeByWindow",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AnomalyServer).GetOneMinuteTradeSizeByWindow(ctx, req.(*GetOneMinuteTradeSizeByWindowArgs))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Anomaly_ServiceDesc is the grpc.ServiceDesc for Anomaly service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -474,6 +538,14 @@ var Anomaly_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTokenBySell",
 			Handler:    _Anomaly_GetTokenBySell_Handler,
+		},
+		{
+			MethodName: "GetWhaleCountByWindow",
+			Handler:    _Anomaly_GetWhaleCountByWindow_Handler,
+		},
+		{
+			MethodName: "GetOneMinuteTradeSizeByWindow",
+			Handler:    _Anomaly_GetOneMinuteTradeSizeByWindow_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
