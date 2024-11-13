@@ -136,11 +136,11 @@ message GetWhaleCountByWindowArgs {
 }
 
 message CountMap {
-  map<string, int64> value = 1;
+  map<string, int64> direction = 1;
 }
 
 message WhaleCountByWindow {
-  map<int32, CountMap> count = 1;
+  map<int32, CountMap> window = 1;
 }
 
 message GetOneMinuteTradeSizeByWindowArgs {
@@ -149,13 +149,13 @@ message GetOneMinuteTradeSizeByWindowArgs {
 }
 
 message SizeMap {
-  map<string, int64> value = 1;
+  map<string, int64> category = 1;
 }
 
 message CategoryMap {
-  map<string, SizeMap> size = 1;
+  map<string, SizeMap> direction = 1;
 }
 
 message OneMinuteTradeSizeByWindow {
-  map<int32, CategoryMap> category = 1;
+  map<int32, CategoryMap> window = 1;
 }
