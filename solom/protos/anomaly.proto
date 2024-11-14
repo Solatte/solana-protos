@@ -7,6 +7,7 @@ package solom;
 service Anomaly {
   rpc Subscribe(stream SubscribeRequest) returns (stream SubscribeUpdate) {}
   rpc SubscribeEvent(stream SubscribeEventRequest) returns (stream SubscribeEventUpdate) {}
+  rpc SubscribeGeyser(stream SubscribeGeyserRequest)returns (stream SubscribeGeyserUpdate){}
 
   rpc GetPriceAllWindow(Mint) returns (PriceAllWindow) {}
   rpc GetOneMinuteVolumeByWindow(GetOneMinuteVolumeByWindowArgs) returns (OneMinuteVolumeByWindow) {}
@@ -63,6 +64,16 @@ message SubscribeEventUpdate {
   string mint = 3;
   string signature = 4;
   string event = 5;
+}
+
+message SubscribeGeyserRequest {
+  string address = 1;
+  bool is_listening = 2;
+}
+
+message SubscribeGeyserUpdate {
+  string address = 1;
+  bool is_listening = 2;
 }
 
 message AmmId {

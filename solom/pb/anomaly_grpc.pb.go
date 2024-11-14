@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type AnomalyClient interface {
 	Subscribe(ctx context.Context, opts ...grpc.CallOption) (Anomaly_SubscribeClient, error)
 	SubscribeEvent(ctx context.Context, opts ...grpc.CallOption) (Anomaly_SubscribeEventClient, error)
+	SubscribeGeyser(ctx context.Context, opts ...grpc.CallOption) (Anomaly_SubscribeGeyserClient, error)
 	GetPriceAllWindow(ctx context.Context, in *Mint, opts ...grpc.CallOption) (*PriceAllWindow, error)
 	GetOneMinuteVolumeByWindow(ctx context.Context, in *GetOneMinuteVolumeByWindowArgs, opts ...grpc.CallOption) (*OneMinuteVolumeByWindow, error)
 	GetOHLCPriceAllWindow(ctx context.Context, in *GetOHLCPriceAllWindowArgs, opts ...grpc.CallOption) (*OHLCPriceAllWindow, error)
@@ -100,6 +101,37 @@ func (x *anomalySubscribeEventClient) Send(m *SubscribeEventRequest) error {
 
 func (x *anomalySubscribeEventClient) Recv() (*SubscribeEventUpdate, error) {
 	m := new(SubscribeEventUpdate)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *anomalyClient) SubscribeGeyser(ctx context.Context, opts ...grpc.CallOption) (Anomaly_SubscribeGeyserClient, error) {
+	stream, err := c.cc.NewStream(ctx, &Anomaly_ServiceDesc.Streams[2], "/solom.Anomaly/SubscribeGeyser", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &anomalySubscribeGeyserClient{stream}
+	return x, nil
+}
+
+type Anomaly_SubscribeGeyserClient interface {
+	Send(*SubscribeGeyserRequest) error
+	Recv() (*SubscribeGeyserUpdate, error)
+	grpc.ClientStream
+}
+
+type anomalySubscribeGeyserClient struct {
+	grpc.ClientStream
+}
+
+func (x *anomalySubscribeGeyserClient) Send(m *SubscribeGeyserRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *anomalySubscribeGeyserClient) Recv() (*SubscribeGeyserUpdate, error) {
+	m := new(SubscribeGeyserUpdate)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -202,6 +234,7 @@ func (c *anomalyClient) GetOneMinuteTradeSizeByWindow(ctx context.Context, in *G
 type AnomalyServer interface {
 	Subscribe(Anomaly_SubscribeServer) error
 	SubscribeEvent(Anomaly_SubscribeEventServer) error
+	SubscribeGeyser(Anomaly_SubscribeGeyserServer) error
 	GetPriceAllWindow(context.Context, *Mint) (*PriceAllWindow, error)
 	GetOneMinuteVolumeByWindow(context.Context, *GetOneMinuteVolumeByWindowArgs) (*OneMinuteVolumeByWindow, error)
 	GetOHLCPriceAllWindow(context.Context, *GetOHLCPriceAllWindowArgs) (*OHLCPriceAllWindow, error)
@@ -224,6 +257,9 @@ func (UnimplementedAnomalyServer) Subscribe(Anomaly_SubscribeServer) error {
 }
 func (UnimplementedAnomalyServer) SubscribeEvent(Anomaly_SubscribeEventServer) error {
 	return status.Errorf(codes.Unimplemented, "method SubscribeEvent not implemented")
+}
+func (UnimplementedAnomalyServer) SubscribeGeyser(Anomaly_SubscribeGeyserServer) error {
+	return status.Errorf(codes.Unimplemented, "method SubscribeGeyser not implemented")
 }
 func (UnimplementedAnomalyServer) GetPriceAllWindow(context.Context, *Mint) (*PriceAllWindow, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPriceAllWindow not implemented")
@@ -314,6 +350,32 @@ func (x *anomalySubscribeEventServer) Send(m *SubscribeEventUpdate) error {
 
 func (x *anomalySubscribeEventServer) Recv() (*SubscribeEventRequest, error) {
 	m := new(SubscribeEventRequest)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func _Anomaly_SubscribeGeyser_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(AnomalyServer).SubscribeGeyser(&anomalySubscribeGeyserServer{stream})
+}
+
+type Anomaly_SubscribeGeyserServer interface {
+	Send(*SubscribeGeyserUpdate) error
+	Recv() (*SubscribeGeyserRequest, error)
+	grpc.ServerStream
+}
+
+type anomalySubscribeGeyserServer struct {
+	grpc.ServerStream
+}
+
+func (x *anomalySubscribeGeyserServer) Send(m *SubscribeGeyserUpdate) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *anomalySubscribeGeyserServer) Recv() (*SubscribeGeyserRequest, error) {
+	m := new(SubscribeGeyserRequest)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -558,6 +620,12 @@ var Anomaly_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "SubscribeEvent",
 			Handler:       _Anomaly_SubscribeEvent_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "SubscribeGeyser",
+			Handler:       _Anomaly_SubscribeGeyser_Handler,
 			ServerStreams: true,
 			ClientStreams: true,
 		},
