@@ -24,8 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type AnomalyClient interface {
 	Subscribe(ctx context.Context, opts ...grpc.CallOption) (Anomaly_SubscribeClient, error)
 	SubscribeEvent(ctx context.Context, opts ...grpc.CallOption) (Anomaly_SubscribeEventClient, error)
-	SubscribeGeyser(ctx context.Context, in *SubscribeGeyserRequest, opts ...grpc.CallOption) (Anomaly_SubscribeGeyserClient, error)
-	ListenForGeyser(ctx context.Context, in *Connect, opts ...grpc.CallOption) (*Close, error)
+	SubscribeGeyser(ctx context.Context, opts ...grpc.CallOption) (Anomaly_SubscribeGeyserClient, error)
 	GetPriceAllWindow(ctx context.Context, in *Mint, opts ...grpc.CallOption) (*PriceAllWindow, error)
 	GetOneMinuteVolumeByWindow(ctx context.Context, in *GetOneMinuteVolumeByWindowArgs, opts ...grpc.CallOption) (*OneMinuteVolumeByWindow, error)
 	GetOHLCPriceAllWindow(ctx context.Context, in *GetOHLCPriceAllWindowArgs, opts ...grpc.CallOption) (*OHLCPriceAllWindow, error)
@@ -108,22 +107,17 @@ func (x *anomalySubscribeEventClient) Recv() (*SubscribeEventUpdate, error) {
 	return m, nil
 }
 
-func (c *anomalyClient) SubscribeGeyser(ctx context.Context, in *SubscribeGeyserRequest, opts ...grpc.CallOption) (Anomaly_SubscribeGeyserClient, error) {
+func (c *anomalyClient) SubscribeGeyser(ctx context.Context, opts ...grpc.CallOption) (Anomaly_SubscribeGeyserClient, error) {
 	stream, err := c.cc.NewStream(ctx, &Anomaly_ServiceDesc.Streams[2], "/solom.Anomaly/SubscribeGeyser", opts...)
 	if err != nil {
 		return nil, err
 	}
 	x := &anomalySubscribeGeyserClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
 	return x, nil
 }
 
 type Anomaly_SubscribeGeyserClient interface {
+	Send(*SubscribeGeyserRequest) error
 	Recv() (*SubscribeGeyserUpdate, error)
 	grpc.ClientStream
 }
@@ -132,21 +126,16 @@ type anomalySubscribeGeyserClient struct {
 	grpc.ClientStream
 }
 
+func (x *anomalySubscribeGeyserClient) Send(m *SubscribeGeyserRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
 func (x *anomalySubscribeGeyserClient) Recv() (*SubscribeGeyserUpdate, error) {
 	m := new(SubscribeGeyserUpdate)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
 	return m, nil
-}
-
-func (c *anomalyClient) ListenForGeyser(ctx context.Context, in *Connect, opts ...grpc.CallOption) (*Close, error) {
-	out := new(Close)
-	err := c.cc.Invoke(ctx, "/solom.Anomaly/ListenForGeyser", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *anomalyClient) GetPriceAllWindow(ctx context.Context, in *Mint, opts ...grpc.CallOption) (*PriceAllWindow, error) {
@@ -245,8 +234,7 @@ func (c *anomalyClient) GetOneMinuteTradeSizeByWindow(ctx context.Context, in *G
 type AnomalyServer interface {
 	Subscribe(Anomaly_SubscribeServer) error
 	SubscribeEvent(Anomaly_SubscribeEventServer) error
-	SubscribeGeyser(*SubscribeGeyserRequest, Anomaly_SubscribeGeyserServer) error
-	ListenForGeyser(context.Context, *Connect) (*Close, error)
+	SubscribeGeyser(Anomaly_SubscribeGeyserServer) error
 	GetPriceAllWindow(context.Context, *Mint) (*PriceAllWindow, error)
 	GetOneMinuteVolumeByWindow(context.Context, *GetOneMinuteVolumeByWindowArgs) (*OneMinuteVolumeByWindow, error)
 	GetOHLCPriceAllWindow(context.Context, *GetOHLCPriceAllWindowArgs) (*OHLCPriceAllWindow, error)
@@ -270,11 +258,8 @@ func (UnimplementedAnomalyServer) Subscribe(Anomaly_SubscribeServer) error {
 func (UnimplementedAnomalyServer) SubscribeEvent(Anomaly_SubscribeEventServer) error {
 	return status.Errorf(codes.Unimplemented, "method SubscribeEvent not implemented")
 }
-func (UnimplementedAnomalyServer) SubscribeGeyser(*SubscribeGeyserRequest, Anomaly_SubscribeGeyserServer) error {
+func (UnimplementedAnomalyServer) SubscribeGeyser(Anomaly_SubscribeGeyserServer) error {
 	return status.Errorf(codes.Unimplemented, "method SubscribeGeyser not implemented")
-}
-func (UnimplementedAnomalyServer) ListenForGeyser(context.Context, *Connect) (*Close, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListenForGeyser not implemented")
 }
 func (UnimplementedAnomalyServer) GetPriceAllWindow(context.Context, *Mint) (*PriceAllWindow, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPriceAllWindow not implemented")
@@ -372,15 +357,12 @@ func (x *anomalySubscribeEventServer) Recv() (*SubscribeEventRequest, error) {
 }
 
 func _Anomaly_SubscribeGeyser_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(SubscribeGeyserRequest)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(AnomalyServer).SubscribeGeyser(m, &anomalySubscribeGeyserServer{stream})
+	return srv.(AnomalyServer).SubscribeGeyser(&anomalySubscribeGeyserServer{stream})
 }
 
 type Anomaly_SubscribeGeyserServer interface {
 	Send(*SubscribeGeyserUpdate) error
+	Recv() (*SubscribeGeyserRequest, error)
 	grpc.ServerStream
 }
 
@@ -392,22 +374,12 @@ func (x *anomalySubscribeGeyserServer) Send(m *SubscribeGeyserUpdate) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func _Anomaly_ListenForGeyser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Connect)
-	if err := dec(in); err != nil {
+func (x *anomalySubscribeGeyserServer) Recv() (*SubscribeGeyserRequest, error) {
+	m := new(SubscribeGeyserRequest)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
-	if interceptor == nil {
-		return srv.(AnomalyServer).ListenForGeyser(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/solom.Anomaly/ListenForGeyser",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AnomalyServer).ListenForGeyser(ctx, req.(*Connect))
-	}
-	return interceptor(ctx, in, info, handler)
+	return m, nil
 }
 
 func _Anomaly_GetPriceAllWindow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -598,10 +570,6 @@ var Anomaly_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*AnomalyServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ListenForGeyser",
-			Handler:    _Anomaly_ListenForGeyser_Handler,
-		},
-		{
 			MethodName: "GetPriceAllWindow",
 			Handler:    _Anomaly_GetPriceAllWindow_Handler,
 		},
@@ -659,6 +627,7 @@ var Anomaly_ServiceDesc = grpc.ServiceDesc{
 			StreamName:    "SubscribeGeyser",
 			Handler:       _Anomaly_SubscribeGeyser_Handler,
 			ServerStreams: true,
+			ClientStreams: true,
 		},
 	},
 	Metadata: "anomaly.proto",
