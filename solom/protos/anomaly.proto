@@ -59,6 +59,7 @@ message SubscribeUpdate {
 	uint64 gas_fee = 10;
 	string tip_source = 11;
 	uint64 tip_amount = 12;
+  int64 timestamp = 13;
 }
 
 message SubscribeEventRequest {
