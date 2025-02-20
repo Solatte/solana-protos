@@ -29,6 +29,7 @@ type SubscribeRequest struct {
 	Pumpfun     *SubscribeRequestFilterPumpFun           `protobuf:"bytes,2,opt,name=pumpfun,proto3" json:"pumpfun,omitempty"`
 	Transaction *SubscribeRequestFilterTransactionFilter `protobuf:"bytes,3,opt,name=transaction,proto3" json:"transaction,omitempty"`
 	Source      *string                                  `protobuf:"bytes,4,opt,name=source,proto3,oneof" json:"source,omitempty"`
+	Account     *SubscribeRequestFilterAccount           `protobuf:"bytes,5,opt,name=account,proto3" json:"account,omitempty"`
 }
 
 func (x *SubscribeRequest) Reset() {
@@ -89,6 +90,13 @@ func (x *SubscribeRequest) GetSource() string {
 		return *x.Source
 	}
 	return ""
+}
+
+func (x *SubscribeRequest) GetAccount() *SubscribeRequestFilterAccount {
+	if x != nil {
+		return x.Account
+	}
+	return nil
 }
 
 type SubscribeRequestFilterSolBalance struct {
@@ -264,6 +272,53 @@ func (x *SubscribeRequestFilterTransactionFilter) GetMax() uint64 {
 	return 0
 }
 
+type SubscribeRequestFilterAccount struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Dex *string `protobuf:"bytes,1,opt,name=dex,proto3,oneof" json:"dex,omitempty"`
+}
+
+func (x *SubscribeRequestFilterAccount) Reset() {
+	*x = SubscribeRequestFilterAccount{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_anomaly_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SubscribeRequestFilterAccount) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SubscribeRequestFilterAccount) ProtoMessage() {}
+
+func (x *SubscribeRequestFilterAccount) ProtoReflect() protoreflect.Message {
+	mi := &file_anomaly_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SubscribeRequestFilterAccount.ProtoReflect.Descriptor instead.
+func (*SubscribeRequestFilterAccount) Descriptor() ([]byte, []int) {
+	return file_anomaly_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *SubscribeRequestFilterAccount) GetDex() string {
+	if x != nil && x.Dex != nil {
+		return *x.Dex
+	}
+	return ""
+}
+
 type SubscribeUpdate struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -287,7 +342,7 @@ type SubscribeUpdate struct {
 func (x *SubscribeUpdate) Reset() {
 	*x = SubscribeUpdate{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[4]
+		mi := &file_anomaly_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -300,7 +355,7 @@ func (x *SubscribeUpdate) String() string {
 func (*SubscribeUpdate) ProtoMessage() {}
 
 func (x *SubscribeUpdate) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[4]
+	mi := &file_anomaly_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -313,7 +368,7 @@ func (x *SubscribeUpdate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubscribeUpdate.ProtoReflect.Descriptor instead.
 func (*SubscribeUpdate) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{4}
+	return file_anomaly_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *SubscribeUpdate) GetSource() string {
@@ -418,7 +473,7 @@ type SubscribeEventRequest struct {
 func (x *SubscribeEventRequest) Reset() {
 	*x = SubscribeEventRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[5]
+		mi := &file_anomaly_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -431,7 +486,7 @@ func (x *SubscribeEventRequest) String() string {
 func (*SubscribeEventRequest) ProtoMessage() {}
 
 func (x *SubscribeEventRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[5]
+	mi := &file_anomaly_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -444,7 +499,7 @@ func (x *SubscribeEventRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubscribeEventRequest.ProtoReflect.Descriptor instead.
 func (*SubscribeEventRequest) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{5}
+	return file_anomaly_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *SubscribeEventRequest) GetSource() string {
@@ -469,7 +524,7 @@ type SubscribeEventUpdate struct {
 func (x *SubscribeEventUpdate) Reset() {
 	*x = SubscribeEventUpdate{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[6]
+		mi := &file_anomaly_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -482,7 +537,7 @@ func (x *SubscribeEventUpdate) String() string {
 func (*SubscribeEventUpdate) ProtoMessage() {}
 
 func (x *SubscribeEventUpdate) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[6]
+	mi := &file_anomaly_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -495,7 +550,7 @@ func (x *SubscribeEventUpdate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubscribeEventUpdate.ProtoReflect.Descriptor instead.
 func (*SubscribeEventUpdate) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{6}
+	return file_anomaly_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *SubscribeEventUpdate) GetSource() string {
@@ -545,7 +600,7 @@ type SubscribeGeyserRequest struct {
 func (x *SubscribeGeyserRequest) Reset() {
 	*x = SubscribeGeyserRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[7]
+		mi := &file_anomaly_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -558,7 +613,7 @@ func (x *SubscribeGeyserRequest) String() string {
 func (*SubscribeGeyserRequest) ProtoMessage() {}
 
 func (x *SubscribeGeyserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[7]
+	mi := &file_anomaly_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -571,7 +626,7 @@ func (x *SubscribeGeyserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubscribeGeyserRequest.ProtoReflect.Descriptor instead.
 func (*SubscribeGeyserRequest) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{7}
+	return file_anomaly_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *SubscribeGeyserRequest) GetAddress() string {
@@ -600,7 +655,7 @@ type SubscribeGeyserUpdate struct {
 func (x *SubscribeGeyserUpdate) Reset() {
 	*x = SubscribeGeyserUpdate{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[8]
+		mi := &file_anomaly_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -613,7 +668,7 @@ func (x *SubscribeGeyserUpdate) String() string {
 func (*SubscribeGeyserUpdate) ProtoMessage() {}
 
 func (x *SubscribeGeyserUpdate) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[8]
+	mi := &file_anomaly_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -626,7 +681,7 @@ func (x *SubscribeGeyserUpdate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubscribeGeyserUpdate.ProtoReflect.Descriptor instead.
 func (*SubscribeGeyserUpdate) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{8}
+	return file_anomaly_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *SubscribeGeyserUpdate) GetAddress() string {
@@ -654,7 +709,7 @@ type AmmId struct {
 func (x *AmmId) Reset() {
 	*x = AmmId{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[9]
+		mi := &file_anomaly_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -667,7 +722,7 @@ func (x *AmmId) String() string {
 func (*AmmId) ProtoMessage() {}
 
 func (x *AmmId) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[9]
+	mi := &file_anomaly_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -680,7 +735,7 @@ func (x *AmmId) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AmmId.ProtoReflect.Descriptor instead.
 func (*AmmId) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{9}
+	return file_anomaly_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *AmmId) GetAmmId() string {
@@ -701,7 +756,7 @@ type Mint struct {
 func (x *Mint) Reset() {
 	*x = Mint{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[10]
+		mi := &file_anomaly_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -714,7 +769,7 @@ func (x *Mint) String() string {
 func (*Mint) ProtoMessage() {}
 
 func (x *Mint) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[10]
+	mi := &file_anomaly_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -727,7 +782,7 @@ func (x *Mint) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Mint.ProtoReflect.Descriptor instead.
 func (*Mint) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{10}
+	return file_anomaly_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *Mint) GetMint() string {
@@ -748,7 +803,7 @@ type Boolean struct {
 func (x *Boolean) Reset() {
 	*x = Boolean{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[11]
+		mi := &file_anomaly_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -761,7 +816,7 @@ func (x *Boolean) String() string {
 func (*Boolean) ProtoMessage() {}
 
 func (x *Boolean) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[11]
+	mi := &file_anomaly_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -774,7 +829,7 @@ func (x *Boolean) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Boolean.ProtoReflect.Descriptor instead.
 func (*Boolean) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{11}
+	return file_anomaly_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *Boolean) GetValue() bool {
@@ -795,7 +850,7 @@ type PriceAllWindow struct {
 func (x *PriceAllWindow) Reset() {
 	*x = PriceAllWindow{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[12]
+		mi := &file_anomaly_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -808,7 +863,7 @@ func (x *PriceAllWindow) String() string {
 func (*PriceAllWindow) ProtoMessage() {}
 
 func (x *PriceAllWindow) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[12]
+	mi := &file_anomaly_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -821,7 +876,7 @@ func (x *PriceAllWindow) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PriceAllWindow.ProtoReflect.Descriptor instead.
 func (*PriceAllWindow) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{12}
+	return file_anomaly_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *PriceAllWindow) GetPrice() map[int32]float64 {
@@ -843,7 +898,7 @@ type GetOneMinuteVolumeByWindowArgs struct {
 func (x *GetOneMinuteVolumeByWindowArgs) Reset() {
 	*x = GetOneMinuteVolumeByWindowArgs{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[13]
+		mi := &file_anomaly_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -856,7 +911,7 @@ func (x *GetOneMinuteVolumeByWindowArgs) String() string {
 func (*GetOneMinuteVolumeByWindowArgs) ProtoMessage() {}
 
 func (x *GetOneMinuteVolumeByWindowArgs) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[13]
+	mi := &file_anomaly_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -869,7 +924,7 @@ func (x *GetOneMinuteVolumeByWindowArgs) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetOneMinuteVolumeByWindowArgs.ProtoReflect.Descriptor instead.
 func (*GetOneMinuteVolumeByWindowArgs) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{13}
+	return file_anomaly_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *GetOneMinuteVolumeByWindowArgs) GetMint() string {
@@ -897,7 +952,7 @@ type ActionMap struct {
 func (x *ActionMap) Reset() {
 	*x = ActionMap{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[14]
+		mi := &file_anomaly_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -910,7 +965,7 @@ func (x *ActionMap) String() string {
 func (*ActionMap) ProtoMessage() {}
 
 func (x *ActionMap) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[14]
+	mi := &file_anomaly_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -923,7 +978,7 @@ func (x *ActionMap) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ActionMap.ProtoReflect.Descriptor instead.
 func (*ActionMap) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{14}
+	return file_anomaly_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *ActionMap) GetVolume() map[string]int64 {
@@ -944,7 +999,7 @@ type OneMinuteVolumeByWindow struct {
 func (x *OneMinuteVolumeByWindow) Reset() {
 	*x = OneMinuteVolumeByWindow{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[15]
+		mi := &file_anomaly_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -957,7 +1012,7 @@ func (x *OneMinuteVolumeByWindow) String() string {
 func (*OneMinuteVolumeByWindow) ProtoMessage() {}
 
 func (x *OneMinuteVolumeByWindow) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[15]
+	mi := &file_anomaly_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -970,7 +1025,7 @@ func (x *OneMinuteVolumeByWindow) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OneMinuteVolumeByWindow.ProtoReflect.Descriptor instead.
 func (*OneMinuteVolumeByWindow) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{15}
+	return file_anomaly_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *OneMinuteVolumeByWindow) GetVolume() map[int32]*ActionMap {
@@ -992,7 +1047,7 @@ type GetOHLCPriceAllWindowArgs struct {
 func (x *GetOHLCPriceAllWindowArgs) Reset() {
 	*x = GetOHLCPriceAllWindowArgs{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[16]
+		mi := &file_anomaly_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1005,7 +1060,7 @@ func (x *GetOHLCPriceAllWindowArgs) String() string {
 func (*GetOHLCPriceAllWindowArgs) ProtoMessage() {}
 
 func (x *GetOHLCPriceAllWindowArgs) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[16]
+	mi := &file_anomaly_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1018,7 +1073,7 @@ func (x *GetOHLCPriceAllWindowArgs) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetOHLCPriceAllWindowArgs.ProtoReflect.Descriptor instead.
 func (*GetOHLCPriceAllWindowArgs) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{16}
+	return file_anomaly_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *GetOHLCPriceAllWindowArgs) GetMint() string {
@@ -1046,7 +1101,7 @@ type OHLCPriceAllWindow struct {
 func (x *OHLCPriceAllWindow) Reset() {
 	*x = OHLCPriceAllWindow{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[17]
+		mi := &file_anomaly_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1059,7 +1114,7 @@ func (x *OHLCPriceAllWindow) String() string {
 func (*OHLCPriceAllWindow) ProtoMessage() {}
 
 func (x *OHLCPriceAllWindow) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[17]
+	mi := &file_anomaly_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1072,7 +1127,7 @@ func (x *OHLCPriceAllWindow) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OHLCPriceAllWindow.ProtoReflect.Descriptor instead.
 func (*OHLCPriceAllWindow) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{17}
+	return file_anomaly_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *OHLCPriceAllWindow) GetPrice() map[int64]*OHLC {
@@ -1096,7 +1151,7 @@ type OHLC struct {
 func (x *OHLC) Reset() {
 	*x = OHLC{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[18]
+		mi := &file_anomaly_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1109,7 +1164,7 @@ func (x *OHLC) String() string {
 func (*OHLC) ProtoMessage() {}
 
 func (x *OHLC) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[18]
+	mi := &file_anomaly_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1122,7 +1177,7 @@ func (x *OHLC) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OHLC.ProtoReflect.Descriptor instead.
 func (*OHLC) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{18}
+	return file_anomaly_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *OHLC) GetOpen() float64 {
@@ -1168,7 +1223,7 @@ type IsAmmGoodArgs struct {
 func (x *IsAmmGoodArgs) Reset() {
 	*x = IsAmmGoodArgs{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[19]
+		mi := &file_anomaly_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1181,7 +1236,7 @@ func (x *IsAmmGoodArgs) String() string {
 func (*IsAmmGoodArgs) ProtoMessage() {}
 
 func (x *IsAmmGoodArgs) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[19]
+	mi := &file_anomaly_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1194,7 +1249,7 @@ func (x *IsAmmGoodArgs) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IsAmmGoodArgs.ProtoReflect.Descriptor instead.
 func (*IsAmmGoodArgs) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{19}
+	return file_anomaly_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *IsAmmGoodArgs) GetTimeRange() []string {
@@ -1245,7 +1300,7 @@ type GetTokenByArgs struct {
 func (x *GetTokenByArgs) Reset() {
 	*x = GetTokenByArgs{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[20]
+		mi := &file_anomaly_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1258,7 +1313,7 @@ func (x *GetTokenByArgs) String() string {
 func (*GetTokenByArgs) ProtoMessage() {}
 
 func (x *GetTokenByArgs) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[20]
+	mi := &file_anomaly_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1271,7 +1326,7 @@ func (x *GetTokenByArgs) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTokenByArgs.ProtoReflect.Descriptor instead.
 func (*GetTokenByArgs) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{20}
+	return file_anomaly_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *GetTokenByArgs) GetStartTime() int64 {
@@ -1306,7 +1361,7 @@ type TokenBy struct {
 func (x *TokenBy) Reset() {
 	*x = TokenBy{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[21]
+		mi := &file_anomaly_proto_msgTypes[22]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1319,7 +1374,7 @@ func (x *TokenBy) String() string {
 func (*TokenBy) ProtoMessage() {}
 
 func (x *TokenBy) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[21]
+	mi := &file_anomaly_proto_msgTypes[22]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1332,7 +1387,7 @@ func (x *TokenBy) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TokenBy.ProtoReflect.Descriptor instead.
 func (*TokenBy) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{21}
+	return file_anomaly_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *TokenBy) GetTokens() []string {
@@ -1356,7 +1411,7 @@ type GetWhaleCountByWindowArgs struct {
 func (x *GetWhaleCountByWindowArgs) Reset() {
 	*x = GetWhaleCountByWindowArgs{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[22]
+		mi := &file_anomaly_proto_msgTypes[23]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1369,7 +1424,7 @@ func (x *GetWhaleCountByWindowArgs) String() string {
 func (*GetWhaleCountByWindowArgs) ProtoMessage() {}
 
 func (x *GetWhaleCountByWindowArgs) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[22]
+	mi := &file_anomaly_proto_msgTypes[23]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1382,7 +1437,7 @@ func (x *GetWhaleCountByWindowArgs) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetWhaleCountByWindowArgs.ProtoReflect.Descriptor instead.
 func (*GetWhaleCountByWindowArgs) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{22}
+	return file_anomaly_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *GetWhaleCountByWindowArgs) GetMint() string {
@@ -1424,7 +1479,7 @@ type CountMap struct {
 func (x *CountMap) Reset() {
 	*x = CountMap{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[23]
+		mi := &file_anomaly_proto_msgTypes[24]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1437,7 +1492,7 @@ func (x *CountMap) String() string {
 func (*CountMap) ProtoMessage() {}
 
 func (x *CountMap) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[23]
+	mi := &file_anomaly_proto_msgTypes[24]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1450,7 +1505,7 @@ func (x *CountMap) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CountMap.ProtoReflect.Descriptor instead.
 func (*CountMap) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{23}
+	return file_anomaly_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *CountMap) GetDirection() map[string]int64 {
@@ -1471,7 +1526,7 @@ type WhaleCountByWindow struct {
 func (x *WhaleCountByWindow) Reset() {
 	*x = WhaleCountByWindow{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[24]
+		mi := &file_anomaly_proto_msgTypes[25]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1484,7 +1539,7 @@ func (x *WhaleCountByWindow) String() string {
 func (*WhaleCountByWindow) ProtoMessage() {}
 
 func (x *WhaleCountByWindow) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[24]
+	mi := &file_anomaly_proto_msgTypes[25]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1497,7 +1552,7 @@ func (x *WhaleCountByWindow) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WhaleCountByWindow.ProtoReflect.Descriptor instead.
 func (*WhaleCountByWindow) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{24}
+	return file_anomaly_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *WhaleCountByWindow) GetWindow() map[int32]*CountMap {
@@ -1519,7 +1574,7 @@ type GetOneMinuteTradeSizeByWindowArgs struct {
 func (x *GetOneMinuteTradeSizeByWindowArgs) Reset() {
 	*x = GetOneMinuteTradeSizeByWindowArgs{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[25]
+		mi := &file_anomaly_proto_msgTypes[26]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1532,7 +1587,7 @@ func (x *GetOneMinuteTradeSizeByWindowArgs) String() string {
 func (*GetOneMinuteTradeSizeByWindowArgs) ProtoMessage() {}
 
 func (x *GetOneMinuteTradeSizeByWindowArgs) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[25]
+	mi := &file_anomaly_proto_msgTypes[26]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1545,7 +1600,7 @@ func (x *GetOneMinuteTradeSizeByWindowArgs) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use GetOneMinuteTradeSizeByWindowArgs.ProtoReflect.Descriptor instead.
 func (*GetOneMinuteTradeSizeByWindowArgs) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{25}
+	return file_anomaly_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *GetOneMinuteTradeSizeByWindowArgs) GetMint() string {
@@ -1573,7 +1628,7 @@ type SizeMap struct {
 func (x *SizeMap) Reset() {
 	*x = SizeMap{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[26]
+		mi := &file_anomaly_proto_msgTypes[27]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1586,7 +1641,7 @@ func (x *SizeMap) String() string {
 func (*SizeMap) ProtoMessage() {}
 
 func (x *SizeMap) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[26]
+	mi := &file_anomaly_proto_msgTypes[27]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1599,7 +1654,7 @@ func (x *SizeMap) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SizeMap.ProtoReflect.Descriptor instead.
 func (*SizeMap) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{26}
+	return file_anomaly_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *SizeMap) GetCategory() map[string]int64 {
@@ -1620,7 +1675,7 @@ type CategoryMap struct {
 func (x *CategoryMap) Reset() {
 	*x = CategoryMap{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[27]
+		mi := &file_anomaly_proto_msgTypes[28]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1633,7 +1688,7 @@ func (x *CategoryMap) String() string {
 func (*CategoryMap) ProtoMessage() {}
 
 func (x *CategoryMap) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[27]
+	mi := &file_anomaly_proto_msgTypes[28]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1646,7 +1701,7 @@ func (x *CategoryMap) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CategoryMap.ProtoReflect.Descriptor instead.
 func (*CategoryMap) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{27}
+	return file_anomaly_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *CategoryMap) GetDirection() map[string]*SizeMap {
@@ -1667,7 +1722,7 @@ type OneMinuteTradeSizeByWindow struct {
 func (x *OneMinuteTradeSizeByWindow) Reset() {
 	*x = OneMinuteTradeSizeByWindow{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[28]
+		mi := &file_anomaly_proto_msgTypes[29]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1680,7 +1735,7 @@ func (x *OneMinuteTradeSizeByWindow) String() string {
 func (*OneMinuteTradeSizeByWindow) ProtoMessage() {}
 
 func (x *OneMinuteTradeSizeByWindow) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[28]
+	mi := &file_anomaly_proto_msgTypes[29]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1693,7 +1748,7 @@ func (x *OneMinuteTradeSizeByWindow) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OneMinuteTradeSizeByWindow.ProtoReflect.Descriptor instead.
 func (*OneMinuteTradeSizeByWindow) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{28}
+	return file_anomaly_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *OneMinuteTradeSizeByWindow) GetWindow() map[int32]*CategoryMap {
@@ -1715,7 +1770,7 @@ type Connect struct {
 func (x *Connect) Reset() {
 	*x = Connect{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[29]
+		mi := &file_anomaly_proto_msgTypes[30]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1728,7 +1783,7 @@ func (x *Connect) String() string {
 func (*Connect) ProtoMessage() {}
 
 func (x *Connect) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[29]
+	mi := &file_anomaly_proto_msgTypes[30]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1741,7 +1796,7 @@ func (x *Connect) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Connect.ProtoReflect.Descriptor instead.
 func (*Connect) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{29}
+	return file_anomaly_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *Connect) GetAddress() string {
@@ -1767,7 +1822,7 @@ type Close struct {
 func (x *Close) Reset() {
 	*x = Close{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_anomaly_proto_msgTypes[30]
+		mi := &file_anomaly_proto_msgTypes[31]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1780,7 +1835,7 @@ func (x *Close) String() string {
 func (*Close) ProtoMessage() {}
 
 func (x *Close) ProtoReflect() protoreflect.Message {
-	mi := &file_anomaly_proto_msgTypes[30]
+	mi := &file_anomaly_proto_msgTypes[31]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1793,14 +1848,14 @@ func (x *Close) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Close.ProtoReflect.Descriptor instead.
 func (*Close) Descriptor() ([]byte, []int) {
-	return file_anomaly_proto_rawDescGZIP(), []int{30}
+	return file_anomaly_proto_rawDescGZIP(), []int{31}
 }
 
 var File_anomaly_proto protoreflect.FileDescriptor
 
 var file_anomaly_proto_rawDesc = []byte{
 	0x0a, 0x0d, 0x61, 0x6e, 0x6f, 0x6d, 0x61, 0x6c, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12,
-	0x05, 0x73, 0x6f, 0x6c, 0x6f, 0x6d, 0x22, 0x96, 0x02, 0x0a, 0x10, 0x53, 0x75, 0x62, 0x73, 0x63,
+	0x05, 0x73, 0x6f, 0x6c, 0x6f, 0x6d, 0x22, 0xd6, 0x02, 0x0a, 0x10, 0x53, 0x75, 0x62, 0x73, 0x63,
 	0x72, 0x69, 0x62, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x48, 0x0a, 0x0b, 0x73,
 	0x6f, 0x6c, 0x5f, 0x62, 0x61, 0x6c, 0x61, 0x6e, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
 	0x32, 0x27, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x6d, 0x2e, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69,
@@ -1817,7 +1872,11 @@ var file_anomaly_proto_rawDesc = []byte{
 	0x74, 0x69, 0x6f, 0x6e, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x52, 0x0b, 0x74, 0x72, 0x61, 0x6e,
 	0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1b, 0x0a, 0x06, 0x73, 0x6f, 0x75, 0x72, 0x63,
 	0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x06, 0x73, 0x6f, 0x75, 0x72, 0x63,
-	0x65, 0x88, 0x01, 0x01, 0x42, 0x09, 0x0a, 0x07, 0x5f, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x22,
+	0x65, 0x88, 0x01, 0x01, 0x12, 0x3e, 0x0a, 0x07, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18,
+	0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x24, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x6d, 0x2e, 0x53, 0x75,
+	0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x46, 0x69,
+	0x6c, 0x74, 0x65, 0x72, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x07, 0x61, 0x63, 0x63,
+	0x6f, 0x75, 0x6e, 0x74, 0x42, 0x09, 0x0a, 0x07, 0x5f, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x22,
 	0x60, 0x0a, 0x20, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x52, 0x65, 0x71, 0x75,
 	0x65, 0x73, 0x74, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x53, 0x6f, 0x6c, 0x42, 0x61, 0x6c, 0x61,
 	0x6e, 0x63, 0x65, 0x12, 0x15, 0x0a, 0x03, 0x6d, 0x69, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04,
@@ -1838,7 +1897,11 @@ var file_anomaly_proto_rawDesc = []byte{
 	0x03, 0x6d, 0x69, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x48, 0x00, 0x52, 0x03, 0x6d, 0x69,
 	0x6e, 0x88, 0x01, 0x01, 0x12, 0x15, 0x0a, 0x03, 0x6d, 0x61, 0x78, 0x18, 0x04, 0x20, 0x01, 0x28,
 	0x04, 0x48, 0x01, 0x52, 0x03, 0x6d, 0x61, 0x78, 0x88, 0x01, 0x01, 0x42, 0x06, 0x0a, 0x04, 0x5f,
-	0x6d, 0x69, 0x6e, 0x42, 0x06, 0x0a, 0x04, 0x5f, 0x6d, 0x61, 0x78, 0x22, 0xf9, 0x02, 0x0a, 0x0f,
+	0x6d, 0x69, 0x6e, 0x42, 0x06, 0x0a, 0x04, 0x5f, 0x6d, 0x61, 0x78, 0x22, 0x3e, 0x0a, 0x1d, 0x53,
+	0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x46,
+	0x69, 0x6c, 0x74, 0x65, 0x72, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x15, 0x0a, 0x03,
+	0x64, 0x65, 0x78, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x03, 0x64, 0x65, 0x78,
+	0x88, 0x01, 0x01, 0x42, 0x06, 0x0a, 0x04, 0x5f, 0x64, 0x65, 0x78, 0x22, 0xf9, 0x02, 0x0a, 0x0f,
 	0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x12,
 	0x16, 0x0a, 0x06, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
 	0x06, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x12, 0x15, 0x0a, 0x06, 0x61, 0x6d, 0x6d, 0x5f, 0x69,
@@ -2104,98 +2167,100 @@ func file_anomaly_proto_rawDescGZIP() []byte {
 	return file_anomaly_proto_rawDescData
 }
 
-var file_anomaly_proto_msgTypes = make([]protoimpl.MessageInfo, 40)
+var file_anomaly_proto_msgTypes = make([]protoimpl.MessageInfo, 41)
 var file_anomaly_proto_goTypes = []interface{}{
 	(*SubscribeRequest)(nil),                        // 0: solom.SubscribeRequest
 	(*SubscribeRequestFilterSolBalance)(nil),        // 1: solom.SubscribeRequestFilterSolBalance
 	(*SubscribeRequestFilterPumpFun)(nil),           // 2: solom.SubscribeRequestFilterPumpFun
 	(*SubscribeRequestFilterTransactionFilter)(nil), // 3: solom.SubscribeRequestFilterTransactionFilter
-	(*SubscribeUpdate)(nil),                         // 4: solom.SubscribeUpdate
-	(*SubscribeEventRequest)(nil),                   // 5: solom.SubscribeEventRequest
-	(*SubscribeEventUpdate)(nil),                    // 6: solom.SubscribeEventUpdate
-	(*SubscribeGeyserRequest)(nil),                  // 7: solom.SubscribeGeyserRequest
-	(*SubscribeGeyserUpdate)(nil),                   // 8: solom.SubscribeGeyserUpdate
-	(*AmmId)(nil),                                   // 9: solom.AmmId
-	(*Mint)(nil),                                    // 10: solom.Mint
-	(*Boolean)(nil),                                 // 11: solom.Boolean
-	(*PriceAllWindow)(nil),                          // 12: solom.PriceAllWindow
-	(*GetOneMinuteVolumeByWindowArgs)(nil),          // 13: solom.GetOneMinuteVolumeByWindowArgs
-	(*ActionMap)(nil),                               // 14: solom.ActionMap
-	(*OneMinuteVolumeByWindow)(nil),                 // 15: solom.OneMinuteVolumeByWindow
-	(*GetOHLCPriceAllWindowArgs)(nil),               // 16: solom.GetOHLCPriceAllWindowArgs
-	(*OHLCPriceAllWindow)(nil),                      // 17: solom.OHLCPriceAllWindow
-	(*OHLC)(nil),                                    // 18: solom.OHLC
-	(*IsAmmGoodArgs)(nil),                           // 19: solom.IsAmmGoodArgs
-	(*GetTokenByArgs)(nil),                          // 20: solom.GetTokenByArgs
-	(*TokenBy)(nil),                                 // 21: solom.TokenBy
-	(*GetWhaleCountByWindowArgs)(nil),               // 22: solom.GetWhaleCountByWindowArgs
-	(*CountMap)(nil),                                // 23: solom.CountMap
-	(*WhaleCountByWindow)(nil),                      // 24: solom.WhaleCountByWindow
-	(*GetOneMinuteTradeSizeByWindowArgs)(nil),       // 25: solom.GetOneMinuteTradeSizeByWindowArgs
-	(*SizeMap)(nil),                                 // 26: solom.SizeMap
-	(*CategoryMap)(nil),                             // 27: solom.CategoryMap
-	(*OneMinuteTradeSizeByWindow)(nil),              // 28: solom.OneMinuteTradeSizeByWindow
-	(*Connect)(nil),                                 // 29: solom.Connect
-	(*Close)(nil),                                   // 30: solom.Close
-	nil,                                             // 31: solom.PriceAllWindow.PriceEntry
-	nil,                                             // 32: solom.ActionMap.VolumeEntry
-	nil,                                             // 33: solom.OneMinuteVolumeByWindow.VolumeEntry
-	nil,                                             // 34: solom.OHLCPriceAllWindow.PriceEntry
-	nil,                                             // 35: solom.CountMap.DirectionEntry
-	nil,                                             // 36: solom.WhaleCountByWindow.WindowEntry
-	nil,                                             // 37: solom.SizeMap.CategoryEntry
-	nil,                                             // 38: solom.CategoryMap.DirectionEntry
-	nil,                                             // 39: solom.OneMinuteTradeSizeByWindow.WindowEntry
+	(*SubscribeRequestFilterAccount)(nil),           // 4: solom.SubscribeRequestFilterAccount
+	(*SubscribeUpdate)(nil),                         // 5: solom.SubscribeUpdate
+	(*SubscribeEventRequest)(nil),                   // 6: solom.SubscribeEventRequest
+	(*SubscribeEventUpdate)(nil),                    // 7: solom.SubscribeEventUpdate
+	(*SubscribeGeyserRequest)(nil),                  // 8: solom.SubscribeGeyserRequest
+	(*SubscribeGeyserUpdate)(nil),                   // 9: solom.SubscribeGeyserUpdate
+	(*AmmId)(nil),                                   // 10: solom.AmmId
+	(*Mint)(nil),                                    // 11: solom.Mint
+	(*Boolean)(nil),                                 // 12: solom.Boolean
+	(*PriceAllWindow)(nil),                          // 13: solom.PriceAllWindow
+	(*GetOneMinuteVolumeByWindowArgs)(nil),          // 14: solom.GetOneMinuteVolumeByWindowArgs
+	(*ActionMap)(nil),                               // 15: solom.ActionMap
+	(*OneMinuteVolumeByWindow)(nil),                 // 16: solom.OneMinuteVolumeByWindow
+	(*GetOHLCPriceAllWindowArgs)(nil),               // 17: solom.GetOHLCPriceAllWindowArgs
+	(*OHLCPriceAllWindow)(nil),                      // 18: solom.OHLCPriceAllWindow
+	(*OHLC)(nil),                                    // 19: solom.OHLC
+	(*IsAmmGoodArgs)(nil),                           // 20: solom.IsAmmGoodArgs
+	(*GetTokenByArgs)(nil),                          // 21: solom.GetTokenByArgs
+	(*TokenBy)(nil),                                 // 22: solom.TokenBy
+	(*GetWhaleCountByWindowArgs)(nil),               // 23: solom.GetWhaleCountByWindowArgs
+	(*CountMap)(nil),                                // 24: solom.CountMap
+	(*WhaleCountByWindow)(nil),                      // 25: solom.WhaleCountByWindow
+	(*GetOneMinuteTradeSizeByWindowArgs)(nil),       // 26: solom.GetOneMinuteTradeSizeByWindowArgs
+	(*SizeMap)(nil),                                 // 27: solom.SizeMap
+	(*CategoryMap)(nil),                             // 28: solom.CategoryMap
+	(*OneMinuteTradeSizeByWindow)(nil),              // 29: solom.OneMinuteTradeSizeByWindow
+	(*Connect)(nil),                                 // 30: solom.Connect
+	(*Close)(nil),                                   // 31: solom.Close
+	nil,                                             // 32: solom.PriceAllWindow.PriceEntry
+	nil,                                             // 33: solom.ActionMap.VolumeEntry
+	nil,                                             // 34: solom.OneMinuteVolumeByWindow.VolumeEntry
+	nil,                                             // 35: solom.OHLCPriceAllWindow.PriceEntry
+	nil,                                             // 36: solom.CountMap.DirectionEntry
+	nil,                                             // 37: solom.WhaleCountByWindow.WindowEntry
+	nil,                                             // 38: solom.SizeMap.CategoryEntry
+	nil,                                             // 39: solom.CategoryMap.DirectionEntry
+	nil,                                             // 40: solom.OneMinuteTradeSizeByWindow.WindowEntry
 }
 var file_anomaly_proto_depIdxs = []int32{
 	1,  // 0: solom.SubscribeRequest.sol_balance:type_name -> solom.SubscribeRequestFilterSolBalance
 	2,  // 1: solom.SubscribeRequest.pumpfun:type_name -> solom.SubscribeRequestFilterPumpFun
 	3,  // 2: solom.SubscribeRequest.transaction:type_name -> solom.SubscribeRequestFilterTransactionFilter
-	31, // 3: solom.PriceAllWindow.price:type_name -> solom.PriceAllWindow.PriceEntry
-	32, // 4: solom.ActionMap.volume:type_name -> solom.ActionMap.VolumeEntry
-	33, // 5: solom.OneMinuteVolumeByWindow.volume:type_name -> solom.OneMinuteVolumeByWindow.VolumeEntry
-	34, // 6: solom.OHLCPriceAllWindow.price:type_name -> solom.OHLCPriceAllWindow.PriceEntry
-	35, // 7: solom.CountMap.direction:type_name -> solom.CountMap.DirectionEntry
-	36, // 8: solom.WhaleCountByWindow.window:type_name -> solom.WhaleCountByWindow.WindowEntry
-	37, // 9: solom.SizeMap.category:type_name -> solom.SizeMap.CategoryEntry
-	38, // 10: solom.CategoryMap.direction:type_name -> solom.CategoryMap.DirectionEntry
-	39, // 11: solom.OneMinuteTradeSizeByWindow.window:type_name -> solom.OneMinuteTradeSizeByWindow.WindowEntry
-	14, // 12: solom.OneMinuteVolumeByWindow.VolumeEntry.value:type_name -> solom.ActionMap
-	18, // 13: solom.OHLCPriceAllWindow.PriceEntry.value:type_name -> solom.OHLC
-	23, // 14: solom.WhaleCountByWindow.WindowEntry.value:type_name -> solom.CountMap
-	26, // 15: solom.CategoryMap.DirectionEntry.value:type_name -> solom.SizeMap
-	27, // 16: solom.OneMinuteTradeSizeByWindow.WindowEntry.value:type_name -> solom.CategoryMap
-	0,  // 17: solom.Anomaly.Subscribe:input_type -> solom.SubscribeRequest
-	5,  // 18: solom.Anomaly.SubscribeEvent:input_type -> solom.SubscribeEventRequest
-	7,  // 19: solom.Anomaly.SubscribeGeyser:input_type -> solom.SubscribeGeyserRequest
-	10, // 20: solom.Anomaly.GetPriceAllWindow:input_type -> solom.Mint
-	13, // 21: solom.Anomaly.GetOneMinuteVolumeByWindow:input_type -> solom.GetOneMinuteVolumeByWindowArgs
-	16, // 22: solom.Anomaly.GetOHLCPriceAllWindow:input_type -> solom.GetOHLCPriceAllWindowArgs
-	19, // 23: solom.Anomaly.IsAmmGood:input_type -> solom.IsAmmGoodArgs
-	20, // 24: solom.Anomaly.GetMostActiveToken:input_type -> solom.GetTokenByArgs
-	20, // 25: solom.Anomaly.GetTokenByTrending:input_type -> solom.GetTokenByArgs
-	20, // 26: solom.Anomaly.GetTokenByBuy:input_type -> solom.GetTokenByArgs
-	20, // 27: solom.Anomaly.GetTokenBySell:input_type -> solom.GetTokenByArgs
-	22, // 28: solom.Anomaly.GetWhaleCountByWindow:input_type -> solom.GetWhaleCountByWindowArgs
-	25, // 29: solom.Anomaly.GetOneMinuteTradeSizeByWindow:input_type -> solom.GetOneMinuteTradeSizeByWindowArgs
-	4,  // 30: solom.Anomaly.Subscribe:output_type -> solom.SubscribeUpdate
-	6,  // 31: solom.Anomaly.SubscribeEvent:output_type -> solom.SubscribeEventUpdate
-	8,  // 32: solom.Anomaly.SubscribeGeyser:output_type -> solom.SubscribeGeyserUpdate
-	12, // 33: solom.Anomaly.GetPriceAllWindow:output_type -> solom.PriceAllWindow
-	15, // 34: solom.Anomaly.GetOneMinuteVolumeByWindow:output_type -> solom.OneMinuteVolumeByWindow
-	17, // 35: solom.Anomaly.GetOHLCPriceAllWindow:output_type -> solom.OHLCPriceAllWindow
-	11, // 36: solom.Anomaly.IsAmmGood:output_type -> solom.Boolean
-	21, // 37: solom.Anomaly.GetMostActiveToken:output_type -> solom.TokenBy
-	21, // 38: solom.Anomaly.GetTokenByTrending:output_type -> solom.TokenBy
-	21, // 39: solom.Anomaly.GetTokenByBuy:output_type -> solom.TokenBy
-	21, // 40: solom.Anomaly.GetTokenBySell:output_type -> solom.TokenBy
-	24, // 41: solom.Anomaly.GetWhaleCountByWindow:output_type -> solom.WhaleCountByWindow
-	28, // 42: solom.Anomaly.GetOneMinuteTradeSizeByWindow:output_type -> solom.OneMinuteTradeSizeByWindow
-	30, // [30:43] is the sub-list for method output_type
-	17, // [17:30] is the sub-list for method input_type
-	17, // [17:17] is the sub-list for extension type_name
-	17, // [17:17] is the sub-list for extension extendee
-	0,  // [0:17] is the sub-list for field type_name
+	4,  // 3: solom.SubscribeRequest.account:type_name -> solom.SubscribeRequestFilterAccount
+	32, // 4: solom.PriceAllWindow.price:type_name -> solom.PriceAllWindow.PriceEntry
+	33, // 5: solom.ActionMap.volume:type_name -> solom.ActionMap.VolumeEntry
+	34, // 6: solom.OneMinuteVolumeByWindow.volume:type_name -> solom.OneMinuteVolumeByWindow.VolumeEntry
+	35, // 7: solom.OHLCPriceAllWindow.price:type_name -> solom.OHLCPriceAllWindow.PriceEntry
+	36, // 8: solom.CountMap.direction:type_name -> solom.CountMap.DirectionEntry
+	37, // 9: solom.WhaleCountByWindow.window:type_name -> solom.WhaleCountByWindow.WindowEntry
+	38, // 10: solom.SizeMap.category:type_name -> solom.SizeMap.CategoryEntry
+	39, // 11: solom.CategoryMap.direction:type_name -> solom.CategoryMap.DirectionEntry
+	40, // 12: solom.OneMinuteTradeSizeByWindow.window:type_name -> solom.OneMinuteTradeSizeByWindow.WindowEntry
+	15, // 13: solom.OneMinuteVolumeByWindow.VolumeEntry.value:type_name -> solom.ActionMap
+	19, // 14: solom.OHLCPriceAllWindow.PriceEntry.value:type_name -> solom.OHLC
+	24, // 15: solom.WhaleCountByWindow.WindowEntry.value:type_name -> solom.CountMap
+	27, // 16: solom.CategoryMap.DirectionEntry.value:type_name -> solom.SizeMap
+	28, // 17: solom.OneMinuteTradeSizeByWindow.WindowEntry.value:type_name -> solom.CategoryMap
+	0,  // 18: solom.Anomaly.Subscribe:input_type -> solom.SubscribeRequest
+	6,  // 19: solom.Anomaly.SubscribeEvent:input_type -> solom.SubscribeEventRequest
+	8,  // 20: solom.Anomaly.SubscribeGeyser:input_type -> solom.SubscribeGeyserRequest
+	11, // 21: solom.Anomaly.GetPriceAllWindow:input_type -> solom.Mint
+	14, // 22: solom.Anomaly.GetOneMinuteVolumeByWindow:input_type -> solom.GetOneMinuteVolumeByWindowArgs
+	17, // 23: solom.Anomaly.GetOHLCPriceAllWindow:input_type -> solom.GetOHLCPriceAllWindowArgs
+	20, // 24: solom.Anomaly.IsAmmGood:input_type -> solom.IsAmmGoodArgs
+	21, // 25: solom.Anomaly.GetMostActiveToken:input_type -> solom.GetTokenByArgs
+	21, // 26: solom.Anomaly.GetTokenByTrending:input_type -> solom.GetTokenByArgs
+	21, // 27: solom.Anomaly.GetTokenByBuy:input_type -> solom.GetTokenByArgs
+	21, // 28: solom.Anomaly.GetTokenBySell:input_type -> solom.GetTokenByArgs
+	23, // 29: solom.Anomaly.GetWhaleCountByWindow:input_type -> solom.GetWhaleCountByWindowArgs
+	26, // 30: solom.Anomaly.GetOneMinuteTradeSizeByWindow:input_type -> solom.GetOneMinuteTradeSizeByWindowArgs
+	5,  // 31: solom.Anomaly.Subscribe:output_type -> solom.SubscribeUpdate
+	7,  // 32: solom.Anomaly.SubscribeEvent:output_type -> solom.SubscribeEventUpdate
+	9,  // 33: solom.Anomaly.SubscribeGeyser:output_type -> solom.SubscribeGeyserUpdate
+	13, // 34: solom.Anomaly.GetPriceAllWindow:output_type -> solom.PriceAllWindow
+	16, // 35: solom.Anomaly.GetOneMinuteVolumeByWindow:output_type -> solom.OneMinuteVolumeByWindow
+	18, // 36: solom.Anomaly.GetOHLCPriceAllWindow:output_type -> solom.OHLCPriceAllWindow
+	12, // 37: solom.Anomaly.IsAmmGood:output_type -> solom.Boolean
+	22, // 38: solom.Anomaly.GetMostActiveToken:output_type -> solom.TokenBy
+	22, // 39: solom.Anomaly.GetTokenByTrending:output_type -> solom.TokenBy
+	22, // 40: solom.Anomaly.GetTokenByBuy:output_type -> solom.TokenBy
+	22, // 41: solom.Anomaly.GetTokenBySell:output_type -> solom.TokenBy
+	25, // 42: solom.Anomaly.GetWhaleCountByWindow:output_type -> solom.WhaleCountByWindow
+	29, // 43: solom.Anomaly.GetOneMinuteTradeSizeByWindow:output_type -> solom.OneMinuteTradeSizeByWindow
+	31, // [31:44] is the sub-list for method output_type
+	18, // [18:31] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_anomaly_proto_init() }
@@ -2253,7 +2318,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SubscribeUpdate); i {
+			switch v := v.(*SubscribeRequestFilterAccount); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2265,7 +2330,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SubscribeEventRequest); i {
+			switch v := v.(*SubscribeUpdate); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2277,7 +2342,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SubscribeEventUpdate); i {
+			switch v := v.(*SubscribeEventRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2289,7 +2354,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SubscribeGeyserRequest); i {
+			switch v := v.(*SubscribeEventUpdate); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2301,7 +2366,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SubscribeGeyserUpdate); i {
+			switch v := v.(*SubscribeGeyserRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2313,7 +2378,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AmmId); i {
+			switch v := v.(*SubscribeGeyserUpdate); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2325,7 +2390,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Mint); i {
+			switch v := v.(*AmmId); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2337,7 +2402,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Boolean); i {
+			switch v := v.(*Mint); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2349,7 +2414,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PriceAllWindow); i {
+			switch v := v.(*Boolean); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2361,7 +2426,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetOneMinuteVolumeByWindowArgs); i {
+			switch v := v.(*PriceAllWindow); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2373,7 +2438,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ActionMap); i {
+			switch v := v.(*GetOneMinuteVolumeByWindowArgs); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2385,7 +2450,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*OneMinuteVolumeByWindow); i {
+			switch v := v.(*ActionMap); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2397,7 +2462,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetOHLCPriceAllWindowArgs); i {
+			switch v := v.(*OneMinuteVolumeByWindow); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2409,7 +2474,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*OHLCPriceAllWindow); i {
+			switch v := v.(*GetOHLCPriceAllWindowArgs); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2421,7 +2486,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*OHLC); i {
+			switch v := v.(*OHLCPriceAllWindow); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2433,7 +2498,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*IsAmmGoodArgs); i {
+			switch v := v.(*OHLC); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2445,7 +2510,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetTokenByArgs); i {
+			switch v := v.(*IsAmmGoodArgs); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2457,7 +2522,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TokenBy); i {
+			switch v := v.(*GetTokenByArgs); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2469,7 +2534,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetWhaleCountByWindowArgs); i {
+			switch v := v.(*TokenBy); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2481,7 +2546,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CountMap); i {
+			switch v := v.(*GetWhaleCountByWindowArgs); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2493,7 +2558,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WhaleCountByWindow); i {
+			switch v := v.(*CountMap); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2505,7 +2570,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetOneMinuteTradeSizeByWindowArgs); i {
+			switch v := v.(*WhaleCountByWindow); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2517,7 +2582,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SizeMap); i {
+			switch v := v.(*GetOneMinuteTradeSizeByWindowArgs); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2529,7 +2594,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CategoryMap); i {
+			switch v := v.(*SizeMap); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2541,7 +2606,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[28].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*OneMinuteTradeSizeByWindow); i {
+			switch v := v.(*CategoryMap); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2553,7 +2618,7 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Connect); i {
+			switch v := v.(*OneMinuteTradeSizeByWindow); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2565,6 +2630,18 @@ func file_anomaly_proto_init() {
 			}
 		}
 		file_anomaly_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Connect); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_anomaly_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Close); i {
 			case 0:
 				return &v.state
@@ -2581,14 +2658,15 @@ func file_anomaly_proto_init() {
 	file_anomaly_proto_msgTypes[1].OneofWrappers = []interface{}{}
 	file_anomaly_proto_msgTypes[2].OneofWrappers = []interface{}{}
 	file_anomaly_proto_msgTypes[3].OneofWrappers = []interface{}{}
-	file_anomaly_proto_msgTypes[5].OneofWrappers = []interface{}{}
+	file_anomaly_proto_msgTypes[4].OneofWrappers = []interface{}{}
+	file_anomaly_proto_msgTypes[6].OneofWrappers = []interface{}{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_anomaly_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   40,
+			NumMessages:   41,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
